@@ -139,6 +139,15 @@ export class AuthService {
     localStorage.removeItem('usuario');
     // sessionStorage.removeItem('token');
     // sessionStorage.removeItem('usuario');
+
+    const urlEndPoint = AppSettings.API_AUTH + '/logout';
+
+    const httpHeaders = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+    // this.http.post<any>(urlEndPoint, usuario, {
+    //   headers: httpHeaders,
+    // });
   }
 
   // obtenerCodigoRecuperacion(cedula: string): Observable<GenericResponse> {
