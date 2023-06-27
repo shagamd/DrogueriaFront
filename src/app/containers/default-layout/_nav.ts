@@ -12,6 +12,11 @@ export const navItems: INavData[] = [
   },
   {
     title: true,
-    name: 'Theme'
+    name: 'Menus'
   },
+  {
+    name: 'Productos',
+    url: '/productos/administrar_productos',
+    iconComponent: { name: 'cil-settings' },
+  }
 ];
