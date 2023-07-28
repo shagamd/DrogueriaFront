@@ -15,6 +15,16 @@ export const navItems: INavData[] = [
     name: 'Menus'
   },
   {
+    name: 'Laboratorios',
+    url: '/productos/administrar_laboratorios',
+    iconComponent: { name: 'cil-settings' },
+  },
+  {
+    name: 'Categorias',
+    url: '/productos/administrar_categorias',
+    iconComponent: { name: 'cil-settings' },
+  },
+  {
     name: 'Productos',
     url: '/productos/administrar_productos',
     iconComponent: { name: 'cil-settings' },

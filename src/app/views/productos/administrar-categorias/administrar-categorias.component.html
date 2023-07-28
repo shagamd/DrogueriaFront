@@ -1,0 +1,60 @@
+<c-container fluid>
+  <c-card
+    ><c-card-body class="py-2">
+      <c-row>
+        <c-col cCol="12" class="fs-9 my-1">
+          <button cButton color="primary" class="button_padding px-3 fs-9" (click)="crearCategoria()">Crear Categoria</button>
+        </c-col>
+        <c-col cCol="12" class="fs-7">
+          <table cTable bordered hover>
+            <thead cTableColor="dark" class="fs-8">
+              <tr>
+                <th class="py-1 px-2 wt-10">
+                  <svg cIcon name="cilListRich"></svg>
+                </th>
+                <th class="py-1 px-2 wt-25">Categoria</th>
+                <th class="py-1 px-2">Descripción</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let categoria of arCategorias">
+                <td class="py-1 px-2 wt-10">
+                  <c-row>
+                    <c-col cCol="5">
+                      <button
+                        cButton
+                        color="success"
+                        cTooltip="Editar"
+                        cTooltipPlacement="top"
+                        class="btn-general fs-9 w-auto px-1 d-inline-flex align-items-center"
+                        (click)="editarCategoria(categoria)"
+                      >
+                        <svg cIcon name="cilPencil" size="xs"></svg>
+                      </button>
+                    </c-col>
+                    <c-col cCol="5">
+                      <button
+                        cButton
+                        color="danger"
+                        cTooltip="Eliminar"
+                        cTooltipPlacement="top"
+                        class="btn-general fs-9 w-auto px-1 d-inline-flex align-items-center"
+                        (click)="eliminarCategoria(categoria)"
+                      >
+                        <svg cIcon name="cilTrash" size="xs"></svg>
+                      </button>
+                    </c-col>
+                  </c-row>
+                </td>
+                <td class="py-1 px-2 wt-25 align-middle">{{ categoria.nombre }}</td>
+                <td class="py-1 px-2 align-middle">{{ categoria.descripcion }}</td>
+              </tr>
+            </tbody>
+            <!-- <c-avatar size="md" src="{{ user.avatar }}" status="{{ user.status }}"></c-avatar> -->
+          </table>
+        </c-col>
+      </c-row>
+    </c-card-body>
+  </c-card>
+  <app-gestionar-categoria #gestionCategoria (recargarDatos)="listarCategorias()"></app-gestionar-categoria>
+</c-container>

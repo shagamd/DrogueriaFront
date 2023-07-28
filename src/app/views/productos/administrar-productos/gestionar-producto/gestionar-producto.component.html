@@ -1,0 +1,76 @@
+<c-modal id="modalAdministrarLaboratorio" [visible]="modalVisible" size="lg" [scrollable]="true" backdrop="static">
+  <c-modal-body>
+    <c-container fluid class="fs-9">
+      <c-card>
+        <c-card-header>
+          <c-row>
+            <c-col cCol="12">
+              <h5 cCardTitle class="fs-6 fw-bold my-0">Administrar Producto</h5>
+            </c-col>
+          </c-row>
+        </c-card-header>
+        <c-card-body>
+          <c-row class="mb-2">
+            <c-col cCol="12">
+              <c-row>
+                <c-col cCol="4">
+                  <label cLabel class="fw-bold mb-1">Nombre</label>
+                  <input cFormControl sizing="xs" type="text" class="padding-input fs-9" [(ngModel)]="productoGestion.nombre" />
+                </c-col>
+                <c-col cCol="3">
+                  <label cLabel class="fw-bold mb-1">Categoria</label>
+                  <select cSelect sizing="xs" class="fs-9" [(ngModel)]="productoGestion.categoria" [compareWith]="compareCategoria">
+                    <option [ngValue]="undefined">Seleccione</option>
+                    <ng-container *ngFor="let categoria of arCategorias">
+                      <option [ngValue]="categoria">{{ categoria.nombre }}</option>
+                    </ng-container>
+                  </select>
+                </c-col>
+                <c-col cCol="3">
+                  <label cLabel class="fw-bold mb-1">Laboratorio</label>
+                  <select cSelect sizing="xs" class="fs-9" [(ngModel)]="productoGestion.laboratorio" [compareWith]="compareLaboratorio">
+                    <option [ngValue]="undefined">Seleccione</option>
+                    <ng-container *ngFor="let laboratorio of arLaboratorios">
+                      <option [ngValue]="laboratorio">{{ laboratorio.nombre }}</option>
+                    </ng-container>
+                  </select>
+                </c-col>
+                <c-col cCol="2">
+                  <label cLabel class="fw-bold mb-1">Estado</label>
+                  <c-form-check sizing="xl" switch>
+                    <input cFormCheckInput checked type="checkbox" [(ngModel)]="productoGestion.estado" />
+                    <label cFormCheckLabel>{{ productoGestion.estado ? "Activo" : "Inactivo" }}</label>
+                  </c-form-check>
+                </c-col>
+              </c-row>
+              <c-row>
+                <c-col cCol="12">
+                  <label cLabel class="fw-bold mb-1">Descripción</label>
+                  <textarea cFormControl [(ngModel)]="productoGestion.descripcion" rows="2" class="fs-9"></textarea>
+                </c-col>
+                <div cCol="12">
+                  <label cLabel class="fw-bold mb-1">Imagen</label>
+                  <input cFormControl id="formFileSm" sizing="sm" type="file" accept="image/*" (change)="cargarArchivo($event)" />
+                </div>
+                <ng-container *ngIf="selectedFile != undefined || previewUrl != null;">
+                  <div cCol="12">
+                    <img [src]="previewUrl" alt="Previsualización" style="max-height: 400px" />
+                  </div>
+                </ng-container>
+                <!-- <ng-template #elseTemplate> </ng-template> -->
+              </c-row>
+            </c-col>
+          </c-row>
+        </c-card-body>
+        <c-card-footer>
+          <c-row>
+            <c-col class="text-end">
+              <button cButton (click)="guardarDatos()" color="primary" class="btn-general fs-9 w-auto px-4 me-2 btn-padding">Guardar</button>
+              <button cButton (click)="cerrarModal()" color="danger" class="btn-general fs-9 w-auto px-4">Cerrar</button>
+            </c-col>
+          </c-row>
+        </c-card-footer>
+      </c-card>
+    </c-container>
+  </c-modal-body>
+</c-modal>

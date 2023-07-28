@@ -2,66 +2,74 @@
   <c-card
     ><c-card-body class="py-2">
       <c-row>
+        <c-col cCol="12" class="fs-9 my-1">
+          <button cButton color="primary" class="button_padding px-3 fs-9" (click)="crearProducto()">Crear Producto</button>
+        </c-col>
         <c-col cCol="12">
-          <c-card class="mb-4">
-            <c-card-header>Users</c-card-header>
-            <c-card-body>
-              <table [hover]="true" [responsive]="true" [striped]="true" align="middle" cTable class="mb-0 border">
-                <thead cTableColor="light">
-                  <tr>
-                    <th class="text-center">
-                      <svg cIcon name="cilPeople"></svg>
-                    </th>
-                    <th>User</th>
-                    <th class="text-center">Country</th>
-                    <th>Usage</th>
-                    <th class="text-center">Payment Method</th>
-                    <th>Activity</th>
-                  </tr>
-                </thead>
-                <!-- <tbody>
-                  <tr *ngFor="let user of users; index as i">
-                    <td class="text-center">
-                      <c-avatar size="md" src="{{ user.avatar }}" status="{{ user.status }}"></c-avatar>
-                    </td>
-                    <td>
-                      <div>{{ user.name }}</div>
-                      <div class="small text-medium-emphasis text-nowrap">
-                        <span> {{ user.state }} | Registered: {{ user.registered }} </span>
-                      </div>
-                    </td>
-                    <td class="text-center">
-                      <svg cIcon id="{{ user.country + user.name }}" name="cif{{ user.country }}" size="xl" title="{{ user.country }}"></svg>
-                    </td>
-                    <td>
-                      <div class="d-flex justify-content-between">
-                        <div class="float-start">
-                          <strong>{{ user.usage }}%</strong>
-                        </div>
-                        <div class="float-end ms-1 text-nowrap">
-                          <small class="text-medium-emphasis">
-                            {{ user.period }}
-                          </small>
-                        </div>
-                      </div>
-                      <c-progress thin>
-                        <c-progress-bar [value]="user.usage" color="{{ user.color }}"></c-progress-bar>
-                      </c-progress>
-                    </td>
-                    <td class="text-center">
-                      <svg cIcon name="cibCc{{ user.payment }}" size="xl"></svg>
-                    </td>
-                    <td>
-                      <div class="small text-medium-emphasis">Last login</div>
-                      <div class="fw-semibold text-nowrap">{{ user.activity }}</div>
-                    </td>
-                  </tr>
-                </tbody> -->
-              </table>
-            </c-card-body>
-          </c-card>
+          <table cTable bordered hover>
+            <thead cTableColor="dark" class="fs-8">
+              <tr>
+                <th class="py-1 px-2 wt-7">
+                  <svg cIcon name="cilListRich"></svg>
+                </th>
+                <th class="py-1 px-2 wt-10 text-center">
+                  <svg cIcon name="cilImage"></svg>
+                </th>
+                <th class="py-1 px-2 wt-50">Producto</th>
+                <th class="py-1 px-2">Categoria</th>
+                <th class="py-1 px-2">Laboratorio</th>
+              </tr>
+            </thead>
+            <tbody class="fs-9">
+              <tr *ngFor="let producto of arProductos">
+                <td class="py-1 px-2 wt-7 align-middle">
+                  <c-row>
+                    <c-col cCol="5">
+                      <button
+                        cButton
+                        color="success"
+                        cTooltip="Editar"
+                        cTooltipPlacement="top"
+                        class="btn-general fs-9 w-auto px-1 d-inline-flex align-items-center"
+                        (click)="editarProducto(producto)"
+                      >
+                        <svg cIcon name="cilPencil" size="xs"></svg>
+                      </button>
+                    </c-col>
+                    <c-col cCol="5">
+                      <button
+                        cButton
+                        color="danger"
+                        cTooltip="Eliminar"
+                        cTooltipPlacement="top"
+                        class="btn-general fs-9 w-auto px-1 d-inline-flex align-items-center"
+                        (click)="eliminarProducto(producto)"
+                      >
+                        <svg cIcon name="cilTrash" size="xs"></svg>
+                      </button>
+                    </c-col>
+                  </c-row>
+                </td>
+                <td class="text-center">
+                  <img [src]="productoService._urlEndPoint + '/images/' + producto.id" alt="Producto" style="height: 50px" />
+                  <!-- <c-avatar size="md" src="{{ user.avatar }}" status="{{ user.status }}"></c-avatar> -->
+                </td>
+                <td class="py-1 px-2 align-middle wt-50">
+                  <b>{{ producto.nombre }}</b
+                  ><br />{{ producto.descripcion }}
+                </td>
+                <td class="py-1 px-2 align-middle">
+                  {{ producto.categoria.nombre }}
+                </td>
+                <td class="py-1 px-2 align-middle">
+                  {{ producto.laboratorio.nombre }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </c-col>
       </c-row>
     </c-card-body>
   </c-card>
+  <app-gestionar-producto #gestionarProducto (recargarDatos)="listarProductos()"></app-gestionar-producto>
 </c-container>
