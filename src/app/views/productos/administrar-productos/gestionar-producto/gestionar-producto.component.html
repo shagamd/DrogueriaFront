@@ -1,4 +1,4 @@
-<c-modal id="modalAdministrarLaboratorio" [visible]="modalVisible" size="lg" [scrollable]="true" backdrop="static">
+<c-modal id="modalAdministrarLaboratorio" [visible]="modalVisible" size="xl" [scrollable]="true" backdrop="static">
   <c-modal-body>
     <c-container fluid class="fs-9">
       <c-card>
@@ -48,16 +48,96 @@
                   <label cLabel class="fw-bold mb-1">Descripción</label>
                   <textarea cFormControl [(ngModel)]="productoGestion.descripcion" rows="2" class="fs-9"></textarea>
                 </c-col>
-                <div cCol="12">
-                  <label cLabel class="fw-bold mb-1">Imagen</label>
-                  <input cFormControl id="formFileSm" sizing="sm" type="file" accept="image/*" (change)="cargarArchivo($event)" />
+                <div cCol="6" class="my-2">
+                  <c-row>
+                    <c-col cCol="6">
+                      <label cLabel class="fw-bold mb-1">Codigo Barras</label>
+                      <input cFormControl sizing="xs" type="text" class="padding-input fs-9" [(ngModel)]="productoGestion.codigoBarras" />
+                    </c-col>
+                    <c-col cCol="6">
+                      <label cLabel class="fw-bold mb-1">Grupo Impuestos</label>
+                      <select cSelect sizing="xs" class="fs-9" [(ngModel)]="productoGestion.grupoImpuestos" [compareWith]="compareGrupoImpuestos">
+                        <option [ngValue]="undefined">No Aplica</option>
+                        <ng-container *ngFor="let grupoImpuesto of arGrupoImpuestos">
+                          <option [ngValue]="grupoImpuesto">{{ grupoImpuesto.nombre }}</option>
+                        </ng-container>
+                      </select>
+                    </c-col>
+                  </c-row>
+                  <c-row>
+                    <c-col>
+                      <label cLabel class="fw-bold mb-1">Imagen</label>
+                      <input cFormControl id="formFileSm" sizing="sm" type="file" accept="image/*" (change)="cargarArchivo($event)" />
+                      <br/>
+                      <ng-container *ngIf="selectedFile != undefined || previewUrl != null">
+                        <!-- <div cCol="12"> -->
+                        <img [src]="previewUrl" alt="Previsualización" style="max-height: 300px" />
+                        <!-- </div> -->
+                      </ng-container>
+                    </c-col>
+                  </c-row>
                 </div>
-                <ng-container *ngIf="selectedFile != undefined || previewUrl != null;">
-                  <div cCol="12">
-                    <img [src]="previewUrl" alt="Previsualización" style="max-height: 400px" />
-                  </div>
-                </ng-container>
-                <!-- <ng-template #elseTemplate> </ng-template> -->
+                <div cCol="6" class="mt-2 border-start">
+                  <c-row>
+                    <c-col cCol="4">
+                      <label cLabel class="fw-bold mb-1" cTooltip="Unidad Medida Principal">Unidad Ppal</label>
+                      <c-input-group sizing="sm">
+                        <span cInputGroupText id="basic-addon1">1</span>
+                        <select cSelect sizing="xs" class="fs-9" [(ngModel)]="unidadPorEmpaqueGestion.unidadPrincipal">
+                          <option [ngValue]="undefined">Seleccione</option>
+                          <ng-container *ngFor="let unidadMedida of arUnidadMedida">
+                            <option [ngValue]="unidadMedida">{{ unidadMedida.abreviatura + "-" + unidadMedida.nombre }}</option>
+                          </ng-container>
+                        </select>
+                      </c-input-group>
+                    </c-col>
+                    <c-col cCol="2">
+                      <label cLabel class="fw-bold mb-1" cTooltip="Cantidad">Ctd</label>
+                      <input cFormControl sizing="xs" type="number" min="0" class="padding-input fs-9" [(ngModel)]="unidadPorEmpaqueGestion.cantidad" />
+                    </c-col>
+                    <c-col cCol="4">
+                      <label cLabel class="fw-bold mb-1" cTooltip="Unidad Medida Referencia">Unidad Ref</label>
+                      <select cSelect sizing="xs" class="fs-9" [(ngModel)]="unidadPorEmpaqueGestion.unidadReferencia">
+                        <option [ngValue]="undefined">Seleccione</option>
+                        <ng-container *ngFor="let unidadMedida of arUnidadMedida">
+                          <option [ngValue]="unidadMedida">{{ unidadMedida.abreviatura + "-" + unidadMedida.nombre }}</option>
+                        </ng-container>
+                      </select>
+                    </c-col>
+                    <c-col cCol="2">
+                      <label cLabel class="fw-bold mb-1">&nbsp;</label><br />
+                      <button cButton (click)="agregarUnidadPorEmpaque()" color="primary" cTooltip="Agregar" class="btn-general fs-9 w-auto px-2 me-2 btn-padding fw-bold">+</button>
+                    </c-col>
+                    <c-col cCol="12" class="fs-9 mt-2">
+                      <table cTable bordered hover>
+                        <thead cTableColor="dark" class="fs-8">
+                          <tr>
+                            <th class="py-1 px-2 wt-5">
+                              <svg cIcon name="cilListRich"></svg>
+                            </th>
+                            <th class="py-1 px-2 wt-40">Unidad Principal</th>
+                            <th class="py-1 px-2 wt-15" cTooltip="Cantidad Referencia">Ctd Ref</th>
+                            <th class="py-1 px-2 wt-40">Unidad Referencia</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let unidadPorEmpaque of productoGestion.arUnidadesPorEmpaque">
+                            <td class="py-1 px-2 wt-5 text-center">
+                              <button cButton color="danger" cTooltip="Eliminar" cTooltipPlacement="top" class="btn-general fs-9 w-auto px-1 d-inline-flex align-items-center">
+                                <svg cIcon name="cilTrash" size="xs"></svg>
+                              </button>
+                            </td>
+                            <td class="py-1 px-2 wt-20 align-middle">{{ "(1) " + unidadPorEmpaque.unidadPrincipal.nombre }}</td>
+                            <td class="py-1 px-2 wt-20 align-middle"><input cFormControl sizing="xs" type="number" class="padding-input fs-9" [(ngModel)]="unidadPorEmpaque.cantidad" /></td>
+                            <td class="py-1 px-2 wt-75 align-middle">
+                              {{ unidadPorEmpaque.unidadReferencia.nombre }}
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </c-col>
+                  </c-row>
+                </div>
               </c-row>
             </c-col>
           </c-row>

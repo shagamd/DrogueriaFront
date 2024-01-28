@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AdministrarProductosComponent } from './administrar-productos/administrar-productos.component';
 import { AdministrarCategoriasComponent } from './administrar-categorias/administrar-categorias.component';
 import { AdministrarLaboratoriosComponent } from './administrar-laboratorios/administrar-laboratorios.component';
+import { AdministrarParametrosComponent } from './administrar-parametros/administrar-parametros.component';
 
 const routes: Routes = [
   {
@@ -24,6 +25,13 @@ const routes: Routes = [
     component: AdministrarProductosComponent,
     data: {
       title: 'Administrar Productos',
+    },
+  },
+  {
+    path: 'administrar_parametros',
+    component: AdministrarParametrosComponent,
+    data: {
+      title: 'Administrar Parametros',
     },
   },
 ];

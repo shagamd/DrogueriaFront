@@ -1,7 +1,10 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Categoria } from 'src/app/classes/categoria';
+import { GrupoImpuesto } from 'src/app/classes/grupoImpuestos';
 import { Laboratorio } from 'src/app/classes/laboratorio';
 import { CombosGestionProductos, Producto } from 'src/app/classes/producto';
+import { UnidadMedida } from 'src/app/classes/unidadMedida';
+import { UnidadPorEmpaque } from 'src/app/classes/unidadPorEmpaque';
 import { ProductoService } from 'src/app/services/producto.service';
 import Swal from 'sweetalert2';
 
@@ -20,6 +23,10 @@ export class GestionarProductoComponent implements OnInit {
 
   arCategorias: Categoria[] = [];
   arLaboratorios: Laboratorio[] = [];
+  arUnidadMedida: UnidadMedida[] = [];
+  arGrupoImpuestos: GrupoImpuesto[] = [];
+
+  unidadPorEmpaqueGestion: UnidadPorEmpaque = new UnidadPorEmpaque();
 
   constructor(private productoService: ProductoService) {}
 
@@ -32,6 +39,8 @@ export class GestionarProductoComponent implements OnInit {
       let arrays: CombosGestionProductos = x.data as CombosGestionProductos;
       this.arCategorias = arrays.categorias;
       this.arLaboratorios = arrays.laboratorios;
+      this.arUnidadMedida = arrays.unidadesMedida;
+      this.arGrupoImpuestos = arrays.grupoImpuestos;
     });
   }
 
@@ -95,5 +104,22 @@ export class GestionarProductoComponent implements OnInit {
 
   compareLaboratorio(laboratorio1: Laboratorio, laboratorio2: Laboratorio) {
     return laboratorio1 && laboratorio2 ? laboratorio1.id === laboratorio2.id : laboratorio1 === laboratorio2;
+  }
+
+  compareGrupoImpuestos(grupoImpuesto1: GrupoImpuesto, grupoImpuesto2: GrupoImpuesto) {
+    return grupoImpuesto1 && grupoImpuesto2 ? grupoImpuesto1.id === grupoImpuesto2.id : grupoImpuesto1 == grupoImpuesto2;
+  }
+
+  agregarUnidadPorEmpaque(): void {
+    if (this.unidadPorEmpaqueGestion.unidadPrincipal == undefined || this.unidadPorEmpaqueGestion.unidadReferencia == undefined) {
+      Swal.fire('', 'No se han seleccionado las unidades de medida', 'warning');
+      return;
+    }
+    if (this.unidadPorEmpaqueGestion.cantidad == undefined || this.unidadPorEmpaqueGestion.cantidad == 0) {
+      Swal.fire('', 'No se ha asignado la cantidad de unidad de medida', 'warning');
+      return;
+    }
+    this.productoGestion.arUnidadesPorEmpaque.push(this.unidadPorEmpaqueGestion);
+    this.unidadPorEmpaqueGestion = new UnidadPorEmpaque();
   }
 }

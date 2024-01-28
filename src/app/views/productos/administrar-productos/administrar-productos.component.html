@@ -1,6 +1,5 @@
 <c-container fluid>
-  <c-card
-    ><c-card-body class="py-2">
+  <c-card><c-card-body class="py-2">
       <c-row>
         <c-col cCol="12" class="fs-9 my-1">
           <button cButton color="primary" class="button_padding px-3 fs-9" (click)="crearProducto()">Crear Producto</button>
@@ -9,60 +8,67 @@
           <table cTable bordered hover>
             <thead cTableColor="dark" class="fs-8">
               <tr>
-                <th class="py-1 px-2 wt-7">
+                <th class="py-1 wt-10">
                   <svg cIcon name="cilListRich"></svg>
                 </th>
                 <th class="py-1 px-2 wt-10 text-center">
                   <svg cIcon name="cilImage"></svg>
                 </th>
-                <th class="py-1 px-2 wt-50">Producto</th>
-                <th class="py-1 px-2">Categoria</th>
-                <th class="py-1 px-2">Laboratorio</th>
+                <th class="py-1 px-2 wt-30">Producto</th>
+                <th class="py-1 px-2 wt-20">Categoria/Laboratorio/Barcode</th>
+                <th class="py-1 px-2 wt-30">Unidades Venta</th>
               </tr>
             </thead>
             <tbody class="fs-9">
               <tr *ngFor="let producto of arProductos">
-                <td class="py-1 px-2 wt-7 align-middle">
-                  <c-row>
-                    <c-col cCol="5">
-                      <button
-                        cButton
-                        color="success"
-                        cTooltip="Editar"
-                        cTooltipPlacement="top"
-                        class="btn-general fs-9 w-auto px-1 d-inline-flex align-items-center"
-                        (click)="editarProducto(producto)"
-                      >
+                <td class="py-1 px-2 align-middle">
+                  <c-row class="px-2">
+                    <c-col cCol="3" class="text-center px-0">
+                      <button cButton color="success" cTooltip="Editar" cTooltipPlacement="top" class="btn-general fs-9 w-auto px-1 d-inline-flex align-items-center" (click)="editarProducto(producto)">
                         <svg cIcon name="cilPencil" size="xs"></svg>
                       </button>
                     </c-col>
-                    <c-col cCol="5">
-                      <button
-                        cButton
-                        color="danger"
-                        cTooltip="Eliminar"
-                        cTooltipPlacement="top"
-                        class="btn-general fs-9 w-auto px-1 d-inline-flex align-items-center"
-                        (click)="eliminarProducto(producto)"
-                      >
+                    <c-col cCol="3" class="text-center px-0">
+                      <button cButton color="danger" cTooltip="Eliminar" cTooltipPlacement="top" class="btn-general fs-9 w-auto px-1 d-inline-flex align-items-center" (click)="eliminarProducto(producto)">
                         <svg cIcon name="cilTrash" size="xs"></svg>
+                      </button>
+                    </c-col>
+                    <c-col cCol="3" class="text-center px-0">
+                      <button cButton color="primary" cTooltip="Observaciones" cTooltipPlacement="top" class="btn-general fs-9 w-auto px-1 d-inline-flex align-items-center" (click)="administrarObservaciones(producto)">
+                        <svg cIcon name="cilListRich" size="xs"></svg>
+                      </button>
+                    </c-col>
+                    <c-col cCol="3" class="text-center px-0">
+                      <button cButton color="primary" cTooltip="Precios" cTooltipPlacement="top" class="btn-general fs-9 w-auto px-1 d-inline-flex align-items-center" (click)="administrarPrecios(producto)">
+                        <svg cIcon name="cilCash" size="xs"></svg>
                       </button>
                     </c-col>
                   </c-row>
                 </td>
-                <td class="text-center">
+                <td class="text-center align-middle">
                   <img [src]="productoService._urlEndPoint + '/images/' + producto.id" alt="Producto" style="height: 50px" />
                   <!-- <c-avatar size="md" src="{{ user.avatar }}" status="{{ user.status }}"></c-avatar> -->
                 </td>
-                <td class="py-1 px-2 align-middle wt-50">
-                  <b>{{ producto.nombre }}</b
-                  ><br />{{ producto.descripcion }}
+                <td class="py-1 px-2 align-middle wt-30">
+                  <b>{{ producto.nombre }}</b><br />{{ producto.descripcion }}
                 </td>
-                <td class="py-1 px-2 align-middle">
-                  {{ producto.categoria.nombre }}
+                <td class="py-1 px-2 align-middle wt-20">
+                  <b>Categoria:</b> {{ producto.categoria.nombre }}<br />
+                  <b>Laboratorio:</b> {{ producto.laboratorio.nombre }}<br />
+                  <b>Barcode:</b> {{ producto.codigoBarras }}<br />
                 </td>
-                <td class="py-1 px-2 align-middle">
-                  {{ producto.laboratorio.nombre }}
+                <td class="py-1 px-2 align-middle wt-30">
+                  <ng-container *ngFor="let unidadPorEmpaque of producto.arUnidadesPorEmpaque">
+                    <li>
+                      <span class="fw-bold">Ppal: </span>{{unidadPorEmpaque.unidadPrincipal.abreviatura + '(1)'}} <span class="fw-bold">Ref: </span>{{ unidadPorEmpaque.unidadReferencia.nombre + '('+unidadPorEmpaque.cantidad+ ')'}}
+                    </li>
+                    <!-- UnidadPpal -->
+                    <!-- <a class="pointer" (click)="verObservaciones(producto)">Ver Observaciones</a> -->
+                    <!-- <span class="fw-bold">{{ observacion.tipoObservacion.nombre }}</span>
+                    <br />
+                    <span>{{ observacion.observacion }}</span
+                    ><br /> -->
+                  </ng-container>
                 </td>
               </tr>
             </tbody>
@@ -72,4 +78,6 @@
     </c-card-body>
   </c-card>
   <app-gestionar-producto #gestionarProducto (recargarDatos)="listarProductos()"></app-gestionar-producto>
+  <app-administrar-observaciones #gestionObservaciones (recargarDatos)="listarProductos()"></app-administrar-observaciones>
+  <app-administrar-precios #gestionarPrecios (recargarDatos)="listarProductos()"></app-administrar-precios>
 </c-container>

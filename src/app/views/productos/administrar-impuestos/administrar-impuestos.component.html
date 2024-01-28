@@ -1,0 +1,97 @@
+<c-container fluid>
+    <c-card><c-card-body class="py-2">
+            <c-row>
+                <c-col cCol="12" class="fs-9 my-1">
+                    <button cButton color="primary" class="button_padding px-3 fs-9" (click)="crearImpuesto()">Crear Impuesto</button>
+                </c-col>
+                <c-col cCol="12" class="fs-7">
+                    <table cTable bordered hover>
+                        <thead cTableColor="dark" class="fs-8">
+                            <tr>
+                                <th class="py-1 px-2 wt-10">
+                                    <svg cIcon name="cilListRich"></svg>
+                                </th>
+                                <th class="py-1 px-2 wt-25">Nombre</th>
+                                <th class="py-1 px-2">Descripción</th>
+                                <th class="py-1 px-2" cTooltip="Porcentaje Impuesto">%Imp</th>
+                                <th class="py-1 px-2">Rango Vigencia</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let impuesto of arImpuestos">
+                                <td class="py-1 px-2 wt-10">
+                                    <c-row>
+                                        <c-col cCol="5">
+                                            <button cButton color="success" cTooltip="Editar" cTooltipPlacement="top" class="btn-general fs-9 w-auto px-1 d-inline-flex align-items-center" (click)="editarImpuesto(impuesto)">
+                                                <svg cIcon name="cilPencil" size="xs"></svg>
+                                            </button>
+                                        </c-col>
+                                        <c-col cCol="5">
+                                            <button cButton color="danger" cTooltip="Eliminar" cTooltipPlacement="top" class="btn-general fs-9 w-auto px-1 d-inline-flex align-items-center" (click)="eliminarImpuesto(impuesto)">
+                                                <svg cIcon name="cilTrash" size="xs"></svg>
+                                            </button>
+                                        </c-col>
+                                    </c-row>
+                                </td>
+                                <td class="py-1 px-2 wt-25 align-middle">{{ impuesto.nombre }}({{ impuesto.abreviatura}})</td>
+                                <td class="py-1 px-2 wt-25 align-middle">{{ impuesto.descripcion }}</td>
+                                <td class="py-1 px-2 align-middle">{{ impuesto.porcentajeImpuesto }}</td>
+                                <td class="py-1 px-2 align-middle">{{ impuesto.fechaInicialVigencia | date : 'MMM d, y' : 'UTC' | titlecase }} a {{ impuesto.fechaFinalVigencia | date : 'MMM d, y' : 'UTC' | titlecase }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </c-col>
+            </c-row>
+        </c-card-body>
+    </c-card>
+    <br>
+    <c-card><c-card-body class="py-2">
+            <c-row>
+                <c-col cCol="12" class="fs-9 my-1">
+                    <button cButton color="primary" class="button_padding px-3 fs-9" (click)="crearGrupoImpuesto()">Crear Grupo Impuestos</button>
+                </c-col>
+                <c-col cCol="12" class="fs-7">
+                    <table cTable bordered hover>
+                        <thead cTableColor="dark" class="fs-8">
+                            <tr>
+                                <th class="py-1 px-2 wt-10">
+                                    <svg cIcon name="cilListRich"></svg>
+                                </th>
+                                <th class="py-1 px-2">Nombre</th>
+                                <th class="py-1 px-2">Impuestos Vinculados</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let grupoImpuesto of arGrupoImpuestos">
+                                <td class="py-1 px-2 wt-10">
+                                    <c-row>
+                                        <c-col cCol="5">
+                                            <button cButton color="success" cTooltip="Editar" cTooltipPlacement="top" class="btn-general fs-9 w-auto px-1 d-inline-flex align-items-center" (click)="editarGrupoImpuesto(grupoImpuesto)">
+                                                <svg cIcon name="cilPencil" size="xs"></svg>
+                                            </button>
+                                        </c-col>
+                                        <c-col cCol="5">
+                                            <button cButton color="danger" cTooltip="Eliminar" cTooltipPlacement="top" class="btn-general fs-9 w-auto px-1 d-inline-flex align-items-center" (click)="eliminarGrupoImpuesto(grupoImpuesto)">
+                                                <svg cIcon name="cilTrash" size="xs"></svg>
+                                            </button>
+                                        </c-col>
+                                    </c-row>
+                                </td>
+                                <td class="py-1 px-2 wt-25 align-middle">
+                                    {{ grupoImpuesto.nombre }}
+                                </td>
+                                <td class="py-1 px-2 wt-25 align-middle">
+                                    <ng-container *ngFor="let impuestoVinc of grupoImpuesto.arImpuestos">
+                                        <li>{{ impuestoVinc.abreviatura }}</li>
+                                    </ng-container>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </c-col>
+            </c-row>
+        </c-card-body>
+    </c-card>
+    <app-gestionar-impuestos #gestionImpuestos (recargarDatos)="listarImpuestos()"></app-gestionar-impuestos>
+    <app-gestionar-grupo-impuestos #gesionGrupoImpuestos (recargarDatos)="listarGrupoImpuestos()"></app-gestionar-grupo-impuestos>
+</c-container>

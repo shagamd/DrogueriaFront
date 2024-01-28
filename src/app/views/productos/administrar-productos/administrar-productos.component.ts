@@ -3,6 +3,8 @@ import { Producto } from 'src/app/classes/producto';
 import { ProductoService } from 'src/app/services/producto.service';
 import { GestionarProductoComponent } from './gestionar-producto/gestionar-producto.component';
 import Swal from 'sweetalert2';
+import { AdministrarObservacionesComponent } from './administrar-observaciones/administrar-observaciones.component';
+import { AdministrarPreciosComponent } from './administrar-precios/administrar-precios.component';
 
 @Component({
   selector: 'app-administrar-productos',
@@ -11,6 +13,8 @@ import Swal from 'sweetalert2';
 })
 export class AdministrarProductosComponent implements OnInit {
   @ViewChild('gestionarProducto') gestionarProductoChild: GestionarProductoComponent;
+  @ViewChild('gestionObservaciones') gestionObservacionesChild: AdministrarObservacionesComponent;
+  @ViewChild('gestionarPrecios') gestionarPreciosChild: AdministrarPreciosComponent;
 
   arProductos: Producto[] = [];
 
@@ -40,15 +44,15 @@ export class AdministrarProductosComponent implements OnInit {
     });
   }
 
-  // saveProduct() {
-  //   let producto = new Producto();
-  //   producto.nombre = 'Producto 1';
-  //   producto.descripcion = 'Descripcion 1';
-  //   producto.estado = true;
-  //   producto.codigoBarras = '12313';
+  administrarObservaciones(producto: Producto): void {
+    this.gestionObservacionesChild.administrarObservacionesProducto(producto);
+  }
 
-  //   this.productoService.administrarProducto(producto, this.selectedFile).subscribe((x) => {
-  //     console.log(x);
-  //   });
-  // }
+  administrarPrecios(producto: Producto): void {
+    this.gestionarPreciosChild.administrarPreciosProducto(producto);
+  }
+
+  verObservaciones(producto: Producto): void {
+    console.log(producto);
+  }
 }

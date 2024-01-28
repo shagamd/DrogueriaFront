@@ -12,16 +12,11 @@ export const navItems: INavData[] = [
   },
   {
     title: true,
-    name: 'Menus'
+    name: 'Menus',
   },
   {
-    name: 'Laboratorios',
-    url: '/productos/administrar_laboratorios',
-    iconComponent: { name: 'cil-settings' },
-  },
-  {
-    name: 'Categorias',
-    url: '/productos/administrar_categorias',
+    name: 'Parametros',
+    url: '/productos/administrar_parametros',
     iconComponent: { name: 'cil-settings' },
   },
   {

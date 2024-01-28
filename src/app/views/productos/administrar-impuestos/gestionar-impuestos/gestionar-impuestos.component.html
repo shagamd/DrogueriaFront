@@ -1,0 +1,61 @@
+<c-modal id="modalAdministrarImpuesto" [visible]="modalVisible" size="lg" [scrollable]="true" backdrop="static">
+    <c-modal-body>
+        <c-container fluid class="fs-9">
+            <c-card>
+                <c-card-header>
+                    <c-row>
+                        <c-col cCol="12">
+                            <h5 cCardTitle class="fs-6 fw-bold my-0">Administrar Impuesto</h5>
+                        </c-col>
+                    </c-row>
+                </c-card-header>
+                <c-card-body>
+                    <c-row class="mb-2">
+                        <c-col cCol="12">
+                            <c-row>
+                                <c-col cCol="3">
+                                    <label cLabel class="fw-bold mb-1">Abreviatura</label>
+                                    <input cFormControl sizing="xs" type="text" class="padding-input fs-9" [(ngModel)]="impuestoGestion.abreviatura" />
+                                </c-col>
+                                <c-col cCol="4">
+                                    <label cLabel class="fw-bold mb-1">Nombre</label>
+                                    <input cFormControl sizing="xs" type="text" class="padding-input fs-9" [(ngModel)]="impuestoGestion.nombre" />
+                                </c-col>
+                                <c-col cCol="4">
+                                    <label cLabel class="fw-bold mb-1">% Impuesto</label>
+                                    <input cFormControl sizing="xs" type="number" class="padding-input fs-9" [(ngModel)]="impuestoGestion.porcentajeImpuesto" />
+                                </c-col>
+                            </c-row>
+                            <c-row>
+                                <c-col cCol="12">
+                                    <label cLabel class="fw-bold mb-1">Descripción</label>
+                                    <input cFormControl sizing="xs" type="text" class="padding-input fs-9" [(ngModel)]="impuestoGestion.descripcion" />
+                                </c-col>
+                            </c-row>
+                            <c-row>
+                                <c-col cCol="3">
+                                    <label cLabel class="fw-bold mb-1">Fecha Inicial Vigencia</label>
+                                    <input cFormControl sizing="xs" type="date" class="text-center fs-9 inputTabla w-auto" (ngModelChange)="impuestoGestion.fechaInicialVigencia=$event"
+                                        [ngModel]="impuestoGestion.fechaInicialVigencia | date:'yyyy-MM-dd' : 'UTC'" />
+                                </c-col>
+                                <c-col cCol="3">
+                                    <label cLabel class="fw-bold mb-1">Fecha Final Vigencia</label>
+                                    <input cFormControl sizing="xs" type="date" class="text-center fs-9 inputTabla w-auto" (ngModelChange)="impuestoGestion.fechaFinalVigencia=$event"
+                                        [ngModel]="impuestoGestion.fechaFinalVigencia | date:'yyyy-MM-dd' : 'UTC'" />
+                                </c-col>
+                            </c-row>
+                        </c-col>
+                    </c-row>
+                </c-card-body>
+                <c-card-footer>
+                    <c-row>
+                        <c-col class="text-end">
+                            <button cButton (click)="guardarDatos()" color="primary" class="btn-general fs-9 w-auto px-4 me-2 btn-padding">Guardar</button>
+                            <button cButton (click)="cerrarModal()" color="danger" class="btn-general fs-9 w-auto px-4">Cerrar</button>
+                        </c-col>
+                    </c-row>
+                </c-card-footer>
+            </c-card>
+        </c-container>
+    </c-modal-body>
+</c-modal>

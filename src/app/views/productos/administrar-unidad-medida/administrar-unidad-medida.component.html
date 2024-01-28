@@ -3,22 +3,22 @@
       ><c-card-body class="py-2">
         <c-row>
           <c-col cCol="12" class="fs-9 my-1">
-            <button cButton color="primary" class="button_padding px-3 fs-9" (click)="crearLaboratorio()">Crear Laboratorio</button>
+            <button cButton color="primary" class="button_padding px-3 fs-9" (click)="gestionarUnidadMedida()">Crear Unidad Medida</button>
           </c-col>
           <c-col cCol="12" class="fs-7">
             <table cTable bordered hover>
               <thead cTableColor="dark" class="fs-8">
                 <tr>
-                  <th class="py-1 px-2 wt-10">
+                  <th class="py-1 px-2 wt-5">
                     <svg cIcon name="cilListRich"></svg>
                   </th>
+                  <th class="py-1 px-2 wt-10">Abreviatura</th>
                   <th class="py-1 px-2 wt-25">Nombre</th>
-                  <th class="py-1 px-2">Observaciones</th>
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let laboratorio of arLaboratorios">
-                  <td class="py-1 px-2 wt-10">
+                <tr *ngFor="let unidadMedida of arUnidadesMedida">
+                  <td class="py-1 px-2 wt-5">
                     <c-row>
                       <c-col cCol="5">
                         <button
@@ -27,7 +27,7 @@
                           cTooltip="Editar"
                           cTooltipPlacement="top"
                           class="btn-general fs-9 w-auto px-1 d-inline-flex align-items-center"
-                          (click)="editarLaboratorio(laboratorio)"
+                          (click)="gestionarUnidadMedida(unidadMedida)"
                         >
                           <svg cIcon name="cilPencil" size="xs"></svg>
                         </button>
@@ -39,15 +39,15 @@
                           cTooltip="Eliminar"
                           cTooltipPlacement="top"
                           class="btn-general fs-9 w-auto px-1 d-inline-flex align-items-center"
-                          (click)="eliminarLaboratorio(laboratorio)"
+                          (click)="eliminarUnidadMedida(unidadMedida)"
                         >
                           <svg cIcon name="cilTrash" size="xs"></svg>
                         </button>
                       </c-col>
                     </c-row>
                   </td>
-                  <td class="py-1 px-2 wt-25 align-middle">{{ laboratorio.nombre }}</td>
-                  <td class="py-1 px-2 align-middle">{{ laboratorio.observaciones }}</td>
+                  <td class="py-1 px-2 wt-95 align-middle">{{ unidadMedida.abreviatura }}</td>
+                  <td class="py-1 px-2 wt-95 align-middle">{{ unidadMedida.nombre }}</td>
                 </tr>
               </tbody>
             </table>
@@ -55,6 +55,6 @@
         </c-row>
       </c-card-body>
     </c-card>
-    <app-gestionar-laboratorio #gestionLaboratorio (recargarDatos)="listarLaboratorios()"></app-gestionar-laboratorio>
+    <app-gestionar-unidad-medida #gestionUnidadMedida (recargarDatos)="listarUnidadesMedida()"></app-gestionar-unidad-medida>
   </c-container>
   

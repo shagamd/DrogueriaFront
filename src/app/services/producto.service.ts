@@ -3,7 +3,8 @@ import { AppSettings } from '../app-settings';
 import { HttpClient } from '@angular/common/http';
 import { Producto } from '../classes/producto';
 import { GenericResponse } from '../classes/genericResponse.model';
-import { Observable, catchError, throwError } from 'rxjs';
+import { Observable, catchError, map, throwError } from 'rxjs';
+import { TipoObservacion } from '../classes/tipoObservacion';
 
 @Injectable({
   providedIn: 'root',
@@ -27,13 +28,19 @@ export class ProductoService {
 
   listarProductos(): Observable<Producto[]> {
     return this.http.get<Producto[]>(this.urlEndPoint + '/listarProductos').pipe(
+      map((productos: Producto[]) => {
+        productos.map((el: Producto) => {
+          el.grupoImpuestos = el.grupoImpuestos == null ? undefined : el.grupoImpuestos;
+        });
+        return productos;
+      }),
       catchError((e) => {
         return throwError(() => e);
       })
     );
   }
 
-  administrarProducto(producto: Producto, file: File | undefined): Observable<GenericResponse> {
+  administrarProducto(producto: Producto, file: File | undefined = undefined): Observable<GenericResponse> {
     var formData: any = new FormData();
     formData.append('producto', new Blob([JSON.stringify(producto)], { type: 'application/json' }));
     formData.append('file', file);
@@ -46,6 +53,14 @@ export class ProductoService {
 
   eliminarProducto(producto: Producto): Observable<GenericResponse> {
     return this.http.post<GenericResponse>(`${this._urlEndPoint}/eliminarProducto`, producto).pipe(
+      catchError((e) => {
+        return throwError(() => e);
+      })
+    );
+  }
+
+  cargarTiposObservacion(): Observable<TipoObservacion[]> {
+    return this.http.get<TipoObservacion[]>(`${this._urlEndPoint}/cargarTiposObservacion`).pipe(
       catchError((e) => {
         return throwError(() => e);
       })

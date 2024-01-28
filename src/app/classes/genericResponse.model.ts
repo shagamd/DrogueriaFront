@@ -1,6 +1,6 @@
 export class GenericResponse {
-  error: boolean;
+  estado: boolean;
   mensaje: string;
-  detalleError: string;
+  detalleMensaje: string;
   data: any;
 }

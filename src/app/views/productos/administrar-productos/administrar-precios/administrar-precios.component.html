@@ -1,0 +1,75 @@
+<c-modal id="modalAdministrarObservacion" [visible]="modalVisible" size="xl" [scrollable]="true" backdrop="static">
+  <c-modal-body>
+    <c-container fluid class="fs-9">
+      <c-card>
+        <c-card-header>
+          <c-row>
+            <c-col cCol="12">
+              <h5 cCardTitle class="fs-6 fw-bold my-0">Precios {{ productoGestion.nombre }}</h5>
+            </c-col>
+          </c-row>
+        </c-card-header>
+        <c-card-body>
+          <c-row class="mb-2">
+            <c-col cCol="12">
+              <c-row>
+                <c-col cCol="3">
+                  <label cLabel class="fw-bold mb-1">Unidad Medida</label>
+                  <select cSelect sizing="xs" class="fs-9" [(ngModel)]="precioGestion.unidadMedida">
+                    <option [ngValue]="undefined">Seleccione</option>
+                    <ng-container *ngFor="let unidadMedida of arUnidadesMedida">
+                      <option [ngValue]="unidadMedida" *ngIf="!unidadMedidaYaVinculada(unidadMedida)">{{ "(" + unidadMedida.abreviatura + ") " + unidadMedida.nombre }}</option>
+                    </ng-container>
+                  </select>
+                </c-col>
+                <c-col cCol="3">
+                  <label cLabel class="fw-bold mb-1">Precio</label>
+                  <input cFormControl sizing="xs" type="number" class="padding-input fs-9" [(ngModel)]="precioGestion.valorVenta" />
+                </c-col>
+                <c-col cCol="2">
+                  <label cLabel class="fw-bold mb-1">&nbsp;</label><br />
+                  <button cButton (click)="agregarPrecio()" color="primary" class="btn-general fs-9 w-auto px-4 me-2 btn-padding">Agregar</button>
+                </c-col>
+              </c-row>
+            </c-col>
+            <c-col cCol="12"><hr /></c-col>
+            <c-col cCol="12" class="fs-9">
+              <table cTable bordered hover>
+                <thead cTableColor="dark" class="fs-8">
+                  <tr>
+                    <th class="py-1 px-2 wt-5">
+                      <svg cIcon name="cilListRich"></svg>
+                    </th>
+                    <th class="py-1 px-2 wt-40">Unidad Medida</th>
+                    <th class="py-1 px-2 wt-35">Precio</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let precio of productoGestion.arPrecios">
+                    <td class="py-1 px-2 wt-5 text-center">
+                      <button cButton color="danger" cTooltip="Eliminar" cTooltipPlacement="top" class="btn-general fs-9 w-auto px-1 d-inline-flex align-items-center" (click)="eliminarPrecio(precio)">
+                        <svg cIcon name="cilTrash" size="xs"></svg>
+                      </button>
+                    </td>
+                    <td class="py-1 px-2 wt-20 align-middle">{{ "(" + precio.unidadMedida.abreviatura + ") " + precio.unidadMedida.nombre }}</td>
+                    <td class="py-1 px-2 wt-75 align-middle">
+                      <input cFormControl sizing="xs" type="text" class="padding-input fs-9" [(ngModel)]="precio.valorVenta" />
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </c-col>
+          </c-row>
+        </c-card-body>
+        <c-card-footer>
+          <c-row>
+            <c-col class="text-end">
+              <button cButton (click)="guardarDatos()" color="primary" class="btn-general fs-9 w-auto px-4">Guardar</button>
+              <button cButton (click)="cerrarModal()" color="danger" class="btn-general fs-9 w-auto px-4">Cerrar</button>
+            </c-col>
+          </c-row>
+        </c-card-footer>
+      </c-card>
+    </c-container>
+  </c-modal-body>
+</c-modal>

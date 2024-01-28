@@ -1,5 +1,10 @@
 import { Categoria } from './categoria';
 import { Laboratorio } from './laboratorio';
+import { ObservacionProducto } from './observacionProducto';
+import { UnidadMedida } from './unidadMedida';
+import { UnidadPorEmpaque } from './unidadPorEmpaque';
+import { Precio } from './precio';
+import { GrupoImpuesto } from './grupoImpuestos';
 
 export class Producto {
   id: number;
@@ -10,9 +15,15 @@ export class Producto {
   laboratorio: Laboratorio = undefined;
   estado: boolean = true;
   rutaImagen: string = '';
+  arObservaciones: ObservacionProducto[] = [];
+  arUnidadesPorEmpaque: UnidadPorEmpaque[] = [];
+  arPrecios: Precio[] = [];
+  grupoImpuestos: GrupoImpuesto = undefined;
 }
 
 export class CombosGestionProductos {
   categorias: Categoria[];
   laboratorios: Laboratorio[];
+  unidadesMedida: UnidadMedida[];
+  grupoImpuestos: GrupoImpuesto[];
 }
