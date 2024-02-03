@@ -17,6 +17,7 @@
                     cFormControl
                     [(ngModel)]="authRequest.username"
                     placeholder="Username"
+                    (keyup.enter)="login()"
                   />
                 </c-input-group>
                 <c-input-group class="mb-4">
