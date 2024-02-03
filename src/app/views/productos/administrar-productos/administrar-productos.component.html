@@ -1,33 +1,33 @@
 <c-container fluid>
   <c-card class="mb-2"><c-card-body class="py-2 fs-9">
-    <c-row>
-      <c-col cCol="2">
-        <label cLabel class="fw-bold mb-1">Categoria</label>
-        <select cSelect sizing="xs" class="fs-9" [(ngModel)]="categoriaFiltro">
-          <option [ngValue]="undefined">Todos</option>
-          <ng-container *ngFor="let categoria of arCategorias">
-            <option [ngValue]="categoria">{{ categoria.nombre }}</option>
-          </ng-container>
-        </select>
-      </c-col>
-      <c-col cCol="3">
-        <label cLabel class="fw-bold mb-1">Todos</label>
-        <select cSelect sizing="xs" class="fs-9" [(ngModel)]="laboratorioFiltro">
-          <option [ngValue]="undefined">Seleccione</option>
-          <ng-container *ngFor="let laboratorio of arLaboratorios">
-            <option [ngValue]="laboratorio">{{ laboratorio.nombre }}</option>
-          </ng-container>
-        </select>
-      </c-col>
-      <c-col cCol="3">
-        <label cLabel class="fw-bold mb-1">Nombre / Barcode</label>
-        <input cFormControl sizing="xs" type="text" class="padding-input fs-9" [(ngModel)]="palabraBusqueda" (keypress)="pressEnter($event)" />
-      </c-col>
-      <c-col cCol="2">
-        <label cLabel class="fw-bold mb-1">&nbsp;</label><br/>
-        <button cButton color="primary" class="button_padding px-3 fs-9" (click)="onPageChange(1)">Buscar</button>
-      </c-col>
-    </c-row>
+      <c-row>
+        <c-col cCol="2">
+          <label cLabel class="fw-bold mb-1">Categoria</label>
+          <select cSelect sizing="xs" class="fs-9" [(ngModel)]="categoriaFiltro">
+            <option [ngValue]="undefined">Todos</option>
+            <ng-container *ngFor="let categoria of arCategorias">
+              <option [ngValue]="categoria">{{ categoria.nombre }}</option>
+            </ng-container>
+          </select>
+        </c-col>
+        <c-col cCol="3">
+          <label cLabel class="fw-bold mb-1">Todos</label>
+          <select cSelect sizing="xs" class="fs-9" [(ngModel)]="laboratorioFiltro">
+            <option [ngValue]="undefined">Seleccione</option>
+            <ng-container *ngFor="let laboratorio of arLaboratorios">
+              <option [ngValue]="laboratorio">{{ laboratorio.nombre }}</option>
+            </ng-container>
+          </select>
+        </c-col>
+        <c-col cCol="3">
+          <label cLabel class="fw-bold mb-1">Nombre / Barcode</label>
+          <input cFormControl sizing="xs" type="text" class="padding-input fs-9" [(ngModel)]="palabraBusqueda" (keypress)="pressEnter($event)" />
+        </c-col>
+        <c-col cCol="2">
+          <label cLabel class="fw-bold mb-1">&nbsp;</label><br />
+          <button cButton color="primary" class="button_padding px-3 fs-9" (click)="onPageChange(1)">Buscar</button>
+        </c-col>
+      </c-row>
     </c-card-body></c-card>
   <c-card><c-card-body class="py-2">
       <c-row>
@@ -51,29 +51,20 @@
               </tr>
             </thead>
             <tbody class="fs-9">
-              <tr *ngFor="let producto of arProductos">
+              <tr *ngFor="let producto of arProductos" (dblclick)="verDetalleProducto(producto)">
                 <td class="py-1 px-2 align-middle">
                   <c-row class="px-2">
-                    <c-col cCol="3" class="text-center px-0">
-                      <button cButton color="success" cTooltip="Editar" cTooltipPlacement="top" class="btn-general fs-9 w-auto px-1 d-inline-flex align-items-center" (click)="editarProducto(producto)">
-                        <svg cIcon name="cilPencil" size="xs"></svg>
+                    <c-dropdown variant="btn-group">
+                      <button cButton cDropdownToggle color="primary" class="btn-general fs-9">
+                        Acciones
                       </button>
-                    </c-col>
-                    <c-col cCol="3" class="text-center px-0">
-                      <button cButton color="danger" cTooltip="Eliminar" cTooltipPlacement="top" class="btn-general fs-9 w-auto px-1 d-inline-flex align-items-center" (click)="eliminarProducto(producto)">
-                        <svg cIcon name="cilTrash" size="xs"></svg>
-                      </button>
-                    </c-col>
-                    <c-col cCol="3" class="text-center px-0">
-                      <button cButton color="primary" cTooltip="Observaciones" cTooltipPlacement="top" class="btn-general fs-9 w-auto px-1 d-inline-flex align-items-center" (click)="administrarObservaciones(producto)">
-                        <svg cIcon name="cilListRich" size="xs"></svg>
-                      </button>
-                    </c-col>
-                    <c-col cCol="3" class="text-center px-0">
-                      <button cButton color="primary" cTooltip="Precios" cTooltipPlacement="top" class="btn-general fs-9 w-auto px-1 d-inline-flex align-items-center" (click)="administrarPrecios(producto)">
-                        <svg cIcon name="cilCash" size="xs"></svg>
-                      </button>
-                    </c-col>
+                      <ul cDropdownMenu class="fs-7">
+                        <li><a cDropdownItem (click)="editarProducto(producto)" class="pointer"><svg cIcon name="cilPencil" size="xs"></svg> Editar</a></li>
+                        <li><a cDropdownItem (click)="eliminarProducto(producto)" class="pointer"><svg cIcon name="cilTrash" size="xs"></svg> Eliminar</a></li>
+                        <li><a cDropdownItem (click)="administrarObservaciones(producto)" class="pointer"><svg cIcon name="cilListRich" size="xs"></svg> Observaciones</a></li>
+                        <li><a cDropdownItem (click)="administrarPrecios(producto)" class="pointer"><svg cIcon name="cilCash" size="xs"></svg> Precios</a></li>
+                      </ul>
+                    </c-dropdown>
                   </c-row>
                 </td>
                 <td class="text-center align-middle">
@@ -81,7 +72,7 @@
                   <!-- <c-avatar size="md" src="{{ user.avatar }}" status="{{ user.status }}"></c-avatar> -->
                 </td>
                 <td class="py-1 px-2 align-middle wt-30">
-                  <span class="pointer" (click)="verDetalleProducto(producto)">
+                  <span class="pointer">
                     <b>{{ producto.nombre }}</b><br />{{ producto.descripcion }}
                   </span>
                 </td>

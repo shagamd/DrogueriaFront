@@ -1,0 +1,11 @@
+#build
+docker build -t front_image ./
+
+#run
+docker run -d -p 80:80 --name front front_image
+
+#stop
+docker stop front
+
+docker rm front
+docker rmi front_image

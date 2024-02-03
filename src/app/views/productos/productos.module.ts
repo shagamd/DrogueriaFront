@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { AdministrarProductosComponent } from './administrar-productos/administrar-productos.component';
 import { ProductosRoutingModule } from './productos-routing.module';
 
-import { CardModule, GridModule, TableModule, AvatarModule, ProgressModule, ButtonModule, ModalModule, FormModule, TabsModule, NavModule, AccordionModule, SharedModule, TooltipModule } from '@coreui/angular';
+import { CardModule, GridModule, TableModule, AvatarModule, ProgressModule, ButtonModule, ModalModule, FormModule, TabsModule, NavModule, AccordionModule, SharedModule, TooltipModule, DropdownModule } from '@coreui/angular';
 import { IconModule } from '@coreui/icons-angular';
 import { AdministrarCategoriasComponent } from './administrar-categorias/administrar-categorias.component';
 import { GestionarCategoriaComponent } from './administrar-categorias/gestionar-categoria/gestionar-categoria.component';
@@ -63,7 +63,8 @@ import { DetalleProductoComponent } from './administrar-productos/detalle-produc
     AccordionModule,
     SharedModule,
     TooltipModule,
-    ComponentsModule
+    ComponentsModule,
+    DropdownModule
   ],
 })
 export class ProductosModule {}
