@@ -41,7 +41,7 @@ export class LoginComponent implements OnInit {
       this.authRequest.username == null ||
       this.authRequest.password == null
     ) {
-      Swal.fire('Error Login', 'Cedula o contraseña vacios', 'warning');
+      Swal.fire('Error Login', 'Email o contraseña vacios', 'warning');
       return;
     }
     this.authService.login(this.authRequest).subscribe({

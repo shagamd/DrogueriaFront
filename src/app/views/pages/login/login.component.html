@@ -29,7 +29,7 @@
                     [(ngModel)]="authRequest.password"
                     placeholder="Password"
                     type="password"
-                    (click)="login()"
+                    (keyup.enter)="login()"
                   />
                 </c-input-group>
                 <c-row>
