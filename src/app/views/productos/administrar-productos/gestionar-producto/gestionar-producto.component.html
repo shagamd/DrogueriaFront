@@ -50,16 +50,25 @@
                 </c-col>
                 <div cCol="6" class="my-2">
                   <c-row>
-                    <c-col cCol="6">
+                    <c-col cCol="5">
                       <label cLabel class="fw-bold mb-1">Codigo Barras</label>
                       <input cFormControl sizing="xs" type="text" class="padding-input fs-9" [(ngModel)]="productoGestion.codigoBarras" />
                     </c-col>
-                    <c-col cCol="6">
+                    <c-col cCol="5">
                       <label cLabel class="fw-bold mb-1">Grupo Impuestos</label>
                       <select cSelect sizing="xs" class="fs-9" [(ngModel)]="productoGestion.grupoImpuestos" [compareWith]="compareGrupoImpuestos">
                         <option [ngValue]="undefined">No Aplica</option>
                         <ng-container *ngFor="let grupoImpuesto of arGrupoImpuestos">
                           <option [ngValue]="grupoImpuesto">{{ grupoImpuesto.nombre }}</option>
+                        </ng-container>
+                      </select>
+                    </c-col>
+                    <c-col cCol="2">
+                      <label cLabel class="fw-bold mb-1" cTooltip="Unidad Medida Venta">UMV</label>
+                      <select cSelect sizing="xs" class="fs-9 px-1" [(ngModel)]="productoGestion.unidadMedidaVenta" [compareWith]="compareUnidadMedidaVenta">
+                        <option [ngValue]="undefined">Seleccione</option>
+                        <ng-container *ngFor="let unidadMedida of arUnidadMedida">
+                          <option [ngValue]="unidadMedida">{{ unidadMedida.abreviatura }}</option>
                         </ng-container>
                       </select>
                     </c-col>

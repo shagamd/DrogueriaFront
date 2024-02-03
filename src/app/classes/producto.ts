@@ -19,6 +19,8 @@ export class Producto {
   arUnidadesPorEmpaque: UnidadPorEmpaque[] = [];
   arPrecios: Precio[] = [];
   grupoImpuestos: GrupoImpuesto = undefined;
+  unidadMedidaVenta: UnidadMedida = undefined;
+  fechaRegistro: Date = new Date();
 }
 
 export class CombosGestionProductos {

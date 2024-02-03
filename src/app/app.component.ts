@@ -7,7 +7,7 @@ import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-root',
-  template: '<router-outlet></router-outlet>',
+  template: '<div><router-outlet></router-outlet><app-loading></app-loading></div>',
 })
 export class AppComponent implements OnInit {
   title = 'Drogueria';

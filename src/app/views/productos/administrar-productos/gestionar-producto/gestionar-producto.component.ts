@@ -64,7 +64,6 @@ export class GestionarProductoComponent implements OnInit {
 
   guardarDatos(): void {
     if (this.validarDatos()) {
-      console.log(this.productoGestion);
       this.productoService.administrarProducto(this.productoGestion, this.selectedFile).subscribe((x) => {
         Swal.fire('', 'Producto registrado correctamente', 'success');
         this.cerrarModal();
@@ -83,6 +82,9 @@ export class GestionarProductoComponent implements OnInit {
     if (this.productoGestion.categoria == undefined || this.productoGestion.laboratorio == undefined) {
       arErrores.push('La categoria y laboratorio son obligatorios');
     }
+    // if (this.productoGestion.unidadMedidaVenta == undefined) {
+    //   arErrores.push('La Unidad de medida de venta es obligatoria');
+    // }
     if (arErrores.length > 0) {
       Swal.fire('Error', 'Se encontraron los siguientes errores.<br><li>' + arErrores.join('<li>'), 'warning');
       return false;
@@ -108,6 +110,10 @@ export class GestionarProductoComponent implements OnInit {
 
   compareGrupoImpuestos(grupoImpuesto1: GrupoImpuesto, grupoImpuesto2: GrupoImpuesto) {
     return grupoImpuesto1 && grupoImpuesto2 ? grupoImpuesto1.id === grupoImpuesto2.id : grupoImpuesto1 == grupoImpuesto2;
+  }
+
+  compareUnidadMedidaVenta(unidadMedidaVenta1: UnidadMedida, unidadMedidaVenta2: UnidadMedida) {
+    return unidadMedidaVenta1 && unidadMedidaVenta2 ? unidadMedidaVenta1.id === unidadMedidaVenta2.id : unidadMedidaVenta1 == unidadMedidaVenta2;
   }
 
   agregarUnidadPorEmpaque(): void {

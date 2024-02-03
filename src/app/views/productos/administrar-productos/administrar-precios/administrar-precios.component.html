@@ -13,7 +13,7 @@
           <c-row class="mb-2">
             <c-col cCol="12">
               <c-row>
-                <c-col cCol="3">
+                <c-col cCol="2">
                   <label cLabel class="fw-bold mb-1">Unidad Medida</label>
                   <select cSelect sizing="xs" class="fs-9" [(ngModel)]="precioGestion.unidadMedida">
                     <option [ngValue]="undefined">Seleccione</option>
@@ -22,8 +22,12 @@
                     </ng-container>
                   </select>
                 </c-col>
-                <c-col cCol="3">
-                  <label cLabel class="fw-bold mb-1">Precio</label>
+                <c-col cCol="2">
+                  <label cLabel class="fw-bold mb-1">Precio Compra</label>
+                  <input cFormControl sizing="xs" type="number" class="padding-input fs-9" [(ngModel)]="precioGestion.valorCompra" />
+                </c-col>
+                <c-col cCol="2">
+                  <label cLabel class="fw-bold mb-1">Precio Venta</label>
                   <input cFormControl sizing="xs" type="number" class="padding-input fs-9" [(ngModel)]="precioGestion.valorVenta" />
                 </c-col>
                 <c-col cCol="2">
@@ -41,7 +45,8 @@
                       <svg cIcon name="cilListRich"></svg>
                     </th>
                     <th class="py-1 px-2 wt-40">Unidad Medida</th>
-                    <th class="py-1 px-2 wt-35">Precio</th>
+                    <th class="py-1 px-2 wt-35">Valor Compra</th>
+                    <th class="py-1 px-2 wt-35">Valor Venta</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -52,6 +57,9 @@
                       </button>
                     </td>
                     <td class="py-1 px-2 wt-20 align-middle">{{ "(" + precio.unidadMedida.abreviatura + ") " + precio.unidadMedida.nombre }}</td>
+                    <td class="py-1 px-2 wt-75 align-middle">
+                      <input cFormControl sizing="xs" type="text" class="padding-input fs-9" [(ngModel)]="precio.valorCompra" />
+                    </td>
                     <td class="py-1 px-2 wt-75 align-middle">
                       <input cFormControl sizing="xs" type="text" class="padding-input fs-9" [(ngModel)]="precio.valorVenta" />
                     </td>

@@ -34,21 +34,28 @@ import {
   SidebarModule,
   TabsModule,
   UtilitiesModule,
+  PaginationModule,
+  SpinnerModule
 } from '@coreui/angular';
 
 import { IconModule, IconSetService } from '@coreui/icons-angular';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { TokenInterceptor } from './interceptors/token.interceptor';
+import { LoadingInterceptor } from './interceptors/loading.interceptor';
+
 
 //Esto para el datepipe
 import { registerLocaleData } from '@angular/common';
 import es from '@angular/common/locales/es';
+import { ComponentsModule } from './components/components.module';
 
 const APP_CONTAINERS = [DefaultFooterComponent, DefaultHeaderComponent, DefaultLayoutComponent];
 
+import { LoadingComponent } from './components/loading/loading.component';
+
 @NgModule({
-  declarations: [AppComponent, ...APP_CONTAINERS],
+  declarations: [AppComponent, ...APP_CONTAINERS, LoadingComponent],
   imports: [
     //http
     HttpClientModule,
@@ -79,6 +86,10 @@ const APP_CONTAINERS = [DefaultFooterComponent, DefaultHeaderComponent, DefaultL
     ListGroupModule,
     CardModule,
     NgScrollbarModule,
+    PaginationModule,
+    SpinnerModule,
+    //Componentes
+    ComponentsModule
   ],
   providers: [
     {
@@ -88,7 +99,8 @@ const APP_CONTAINERS = [DefaultFooterComponent, DefaultHeaderComponent, DefaultL
     IconSetService,
     Title,
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
-    { provide: LOCALE_ID, useValue: 'es' }
+    { provide: LOCALE_ID, useValue: 'es' },
+    { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true },
   ],
   bootstrap: [AppComponent],
 })

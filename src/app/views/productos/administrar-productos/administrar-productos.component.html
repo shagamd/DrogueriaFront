@@ -1,4 +1,34 @@
 <c-container fluid>
+  <c-card class="mb-2"><c-card-body class="py-2 fs-9">
+    <c-row>
+      <c-col cCol="2">
+        <label cLabel class="fw-bold mb-1">Categoria</label>
+        <select cSelect sizing="xs" class="fs-9" [(ngModel)]="categoriaFiltro">
+          <option [ngValue]="undefined">Todos</option>
+          <ng-container *ngFor="let categoria of arCategorias">
+            <option [ngValue]="categoria">{{ categoria.nombre }}</option>
+          </ng-container>
+        </select>
+      </c-col>
+      <c-col cCol="3">
+        <label cLabel class="fw-bold mb-1">Todos</label>
+        <select cSelect sizing="xs" class="fs-9" [(ngModel)]="laboratorioFiltro">
+          <option [ngValue]="undefined">Seleccione</option>
+          <ng-container *ngFor="let laboratorio of arLaboratorios">
+            <option [ngValue]="laboratorio">{{ laboratorio.nombre }}</option>
+          </ng-container>
+        </select>
+      </c-col>
+      <c-col cCol="3">
+        <label cLabel class="fw-bold mb-1">Nombre / Barcode</label>
+        <input cFormControl sizing="xs" type="text" class="padding-input fs-9" [(ngModel)]="palabraBusqueda" (keypress)="pressEnter($event)" />
+      </c-col>
+      <c-col cCol="2">
+        <label cLabel class="fw-bold mb-1">&nbsp;</label><br/>
+        <button cButton color="primary" class="button_padding px-3 fs-9" (click)="onPageChange(1)">Buscar</button>
+      </c-col>
+    </c-row>
+    </c-card-body></c-card>
   <c-card><c-card-body class="py-2">
       <c-row>
         <c-col cCol="12" class="fs-9 my-1">
@@ -15,6 +45,7 @@
                   <svg cIcon name="cilImage"></svg>
                 </th>
                 <th class="py-1 px-2 wt-30">Producto</th>
+                <th class="py-1 px-2" cTooltip="Unidad Medida Venta">UMV</th>
                 <th class="py-1 px-2 wt-20">Categoria/Laboratorio/Barcode</th>
                 <th class="py-1 px-2 wt-30">Unidades Venta</th>
               </tr>
@@ -50,7 +81,12 @@
                   <!-- <c-avatar size="md" src="{{ user.avatar }}" status="{{ user.status }}"></c-avatar> -->
                 </td>
                 <td class="py-1 px-2 align-middle wt-30">
-                  <b>{{ producto.nombre }}</b><br />{{ producto.descripcion }}
+                  <span class="pointer" (click)="verDetalleProducto(producto)">
+                    <b>{{ producto.nombre }}</b><br />{{ producto.descripcion }}
+                  </span>
+                </td>
+                <td class="py-1 px-2 align-middle text-center">
+                  {{ producto.unidadMedidaVenta?.abreviatura }}
                 </td>
                 <td class="py-1 px-2 align-middle wt-20">
                   <b>Categoria:</b> {{ producto.categoria.nombre }}<br />
@@ -60,19 +96,16 @@
                 <td class="py-1 px-2 align-middle wt-30">
                   <ng-container *ngFor="let unidadPorEmpaque of producto.arUnidadesPorEmpaque">
                     <li>
-                      <span class="fw-bold">Ppal: </span>{{unidadPorEmpaque.unidadPrincipal.abreviatura + '(1)'}} <span class="fw-bold">Ref: </span>{{ unidadPorEmpaque.unidadReferencia.nombre + '('+unidadPorEmpaque.cantidad+ ')'}}
+                      <span class="fw-bold">Ppal: </span>{{unidadPorEmpaque.unidadPrincipal.nombre + '(1)'}} <span class="fw-bold">Ref: </span>{{ unidadPorEmpaque.unidadReferencia.nombre + '('+unidadPorEmpaque.cantidad+ ')'}}
                     </li>
-                    <!-- UnidadPpal -->
-                    <!-- <a class="pointer" (click)="verObservaciones(producto)">Ver Observaciones</a> -->
-                    <!-- <span class="fw-bold">{{ observacion.tipoObservacion.nombre }}</span>
-                    <br />
-                    <span>{{ observacion.observacion }}</span
-                    ><br /> -->
                   </ng-container>
                 </td>
               </tr>
             </tbody>
           </table>
+        </c-col>
+        <c-col cCol="12">
+          <app-pagination-table [currentPage]="currentPage" [totalPages]="totalPages" (pageChange)="onPageChange($event)"></app-pagination-table>
         </c-col>
       </c-row>
     </c-card-body>
@@ -80,4 +113,5 @@
   <app-gestionar-producto #gestionarProducto (recargarDatos)="listarProductos()"></app-gestionar-producto>
   <app-administrar-observaciones #gestionObservaciones (recargarDatos)="listarProductos()"></app-administrar-observaciones>
   <app-administrar-precios #gestionarPrecios (recargarDatos)="listarProductos()"></app-administrar-precios>
+  <app-detalle-producto #detalleProducto [productoGestion]="productoDetalle"></app-detalle-producto>
 </c-container>

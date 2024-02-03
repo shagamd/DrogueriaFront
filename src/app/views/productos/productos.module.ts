@@ -1,3 +1,4 @@
+import { ComponentsModule } from './../../components/components.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AdministrarProductosComponent } from './administrar-productos/administrar-productos.component';
@@ -21,6 +22,7 @@ import { AdministrarPreciosComponent } from './administrar-productos/administrar
 import { AdministrarImpuestosComponent } from './administrar-impuestos/administrar-impuestos.component';
 import { GestionarImpuestosComponent } from './administrar-impuestos/gestionar-impuestos/gestionar-impuestos.component';
 import { GestionarGrupoImpuestosComponent } from './administrar-impuestos/gestionar-grupo-impuestos/gestionar-grupo-impuestos.component';
+import { DetalleProductoComponent } from './administrar-productos/detalle-producto/detalle-producto.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +42,7 @@ import { GestionarGrupoImpuestosComponent } from './administrar-impuestos/gestio
     AdministrarImpuestosComponent,
     GestionarImpuestosComponent,
     GestionarGrupoImpuestosComponent,
+    DetalleProductoComponent,
   ],
   imports: [
     CommonModule,
@@ -59,7 +62,8 @@ import { GestionarGrupoImpuestosComponent } from './administrar-impuestos/gestio
     NavModule,
     AccordionModule,
     SharedModule,
-    TooltipModule
+    TooltipModule,
+    ComponentsModule
   ],
 })
 export class ProductosModule {}

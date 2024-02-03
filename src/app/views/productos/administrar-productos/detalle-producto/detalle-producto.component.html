@@ -1,0 +1,103 @@
+<c-modal id="modalAdministrarObservacion" [visible]="modalVisible" size="xl" [scrollable]="true" backdrop="static">
+    <c-modal-body>
+        <c-container fluid class="fs-9">
+            <c-card>
+                <c-card-header>
+                    <c-row>
+                        <c-col cCol="12">
+                            <h5 cCardTitle class="fs-6 fw-bold my-0">Producto: {{ productoGestion.nombre }}</h5>
+                        </c-col>
+                    </c-row>
+                </c-card-header>
+                <c-card-body>
+                    <c-row class="mb-1">
+
+                        <c-col cCol="6">
+                            <span class="fs-7"><b>Nombre: </b> {{ productoGestion.nombre }}</span><br />
+                            <span class="fs-9"><b>Fecha Registro: </b> {{ productoGestion.fechaRegistro | date | titlecase }}</span><br />
+                            <span class="fs-9"><b>Codigo Barras: </b> {{ productoGestion.codigoBarras | uppercase }}</span><br />
+                            <hr />
+                            <ng-container *ngIf="previewUrl != null">
+                                <!-- <div cCol="12"> -->
+                                <img [src]="previewUrl" alt="Previsualización" style="max-height: 350px; max-width: 350px;" />
+                                <!-- </div> -->
+                            </ng-container>
+                        </c-col>
+                        <c-col cCol="6">
+                            <span class="fs-9"><b>Categoria: </b> {{ productoGestion.categoria?.nombre | titlecase }}</span><br />
+                            <span class="fs-9"><b>Laboratorio: </b> {{ productoGestion.laboratorio?.nombre | titlecase }}</span><br />
+                            <span class="fs-9"><b>Grupo Impuestos: </b> {{ productoGestion.grupoImpuestos?.nombre ?? "No Aplica" | titlecase }}</span><br />
+                            <span class="fs-9"><b>Unidad Medida Venta: </b> {{ productoGestion.unidadMedidaVenta?.nombre + ' ('+ productoGestion.unidadMedidaVenta?.abreviatura.toUpperCase() +')' }}</span><br /><br />
+                            <span class="fs-9"><b>Descripcion: </b> <br />{{ productoGestion.laboratorio?.nombre | titlecase }}</span><br />
+                            <hr />
+                            <span class="fs-7 fw-bold">Conversion Unidades Medida</span><br />
+                            <table cTable bordered hover>
+                                <thead cTableColor="dark" class="fs-8">
+                                    <tr>
+                                        <th class="py-1 px-2 wt-15">Ctd Ppal</th>
+                                        <th class="py-1 px-2 wt-35">Unidad Principal</th>
+                                        <th class="py-1 px-2 wt-15" cTooltip="Cantidad Referencia">Ctd Ref</th>
+                                        <th class="py-1 px-2 wt-35">Unidad Referencia</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let unidadPorEmpaque of productoGestion.arUnidadesPorEmpaque">
+                                        <td class="py-1 px-2 wt-15 align-middle">1</td>
+                                        <td class="py-1 px-2 wt-35 align-middle">{{ unidadPorEmpaque.unidadPrincipal.nombre + ' ('+unidadPorEmpaque.unidadPrincipal.abreviatura.toUpperCase()+')' }}</td>
+                                        <td class="py-1 px-2 wt-15 align-middle"><span class="padding-input fs-9">{{unidadPorEmpaque.cantidad}}</span></td>
+                                        <td class="py-1 px-2 wt-35 align-middle">
+                                            {{ unidadPorEmpaque.unidadReferencia.nombre + ' ('+unidadPorEmpaque.unidadReferencia.abreviatura.toUpperCase()+')' }}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <hr />
+                            <span class="fs-7 fw-bold">Precios</span><br />
+                            <table cTable bordered hover>
+                                <thead cTableColor="dark" class="fs-8">
+                                    <tr>
+                                        <th class="py-1 px-2 wt-15">Unidad Medida</th>
+                                        <th class="py-1 px-2 wt-15">Valor Compra</th>
+                                        <th class="py-1 px-2 wt-15">Valor Venta</th>
+                                        <th class="py-1 px-2 wt-15">Cantidad</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let precio of productoGestion.arPrecios">
+                                        <td class="py-1 px-2 wt-15 align-middle">{{ precio.unidadMedida.nombre + ' ('+precio.unidadMedida.abreviatura.toUpperCase()+')' }}</td>
+                                        <td class="py-1 px-2 wt-15 align-middle">$ {{ precio.valorCompra | number }}</td>
+                                        <td class="py-1 px-2 wt-15 align-middle">$ {{ precio.valorVenta | number }}</td>
+                                        <td class="py-1 px-2 wt-15 align-middle">PENDIENTE</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </c-col>
+                    </c-row>
+                    <c-row class="mb-2">
+                        <c-col cCol="12">
+                            <hr>
+                            <span class="fs-6 fw-bold">Observaciones</span><br />
+                            <c-row>
+                                <ng-container *ngFor="let observacion of productoGestion.arObservaciones">
+                                    <c-col cCol="4">
+                                        <span class="fw-bold">{{ observacion.tipoObservacion.nombre }}</span>
+                                        <br />
+                                        <span>{{ observacion.observacion }}</span><br />
+                                    </c-col>
+                                </ng-container>
+                            </c-row>
+                        </c-col>
+                    </c-row>
+                </c-card-body>
+                <c-card-footer>
+                    <c-row>
+                        <c-col class="text-end">
+                            <button cButton (click)="cerrarModal()" color="danger" class="btn-general fs-9 w-auto px-4">Cerrar</button>
+                        </c-col>
+                    </c-row>
+                </c-card-footer>
+            </c-card>
+        </c-container>
+    </c-modal-body>
+
+</c-modal>

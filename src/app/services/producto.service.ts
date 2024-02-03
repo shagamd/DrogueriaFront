@@ -1,3 +1,4 @@
+import { PaginationResponse } from './../classes/paginationResponse';
 import { Injectable } from '@angular/core';
 import { AppSettings } from '../app-settings';
 import { HttpClient } from '@angular/common/http';
@@ -5,6 +6,8 @@ import { Producto } from '../classes/producto';
 import { GenericResponse } from '../classes/genericResponse.model';
 import { Observable, catchError, map, throwError } from 'rxjs';
 import { TipoObservacion } from '../classes/tipoObservacion';
+import { Laboratorio } from '../classes/laboratorio';
+import { Categoria } from '../classes/categoria';
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +15,7 @@ import { TipoObservacion } from '../classes/tipoObservacion';
 export class ProductoService {
   private urlEndPoint: string = AppSettings.API_ENDPOINT + '/producto';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   public get _urlEndPoint(): string {
     return this.urlEndPoint;
@@ -26,13 +29,16 @@ export class ProductoService {
     );
   }
 
-  listarProductos(): Observable<Producto[]> {
-    return this.http.get<Producto[]>(this.urlEndPoint + '/listarProductos').pipe(
-      map((productos: Producto[]) => {
-        productos.map((el: Producto) => {
+  listarProductos(
+    categoria: Categoria, laboratorio: Laboratorio, palabraBusqueda: string, pagina: number
+  ): Observable<PaginationResponse> {
+    let request: any = { palabraBusqueda, pagina, ...(categoria !== undefined && { categoria }), ...(laboratorio !== undefined && { laboratorio }) };
+    return this.http.post<PaginationResponse>(this.urlEndPoint + '/listarProductos', request).pipe(
+      map((response: PaginationResponse) => {
+        response.arDatos.map((el: Producto) => {
           el.grupoImpuestos = el.grupoImpuestos == null ? undefined : el.grupoImpuestos;
         });
-        return productos;
+        return response;
       }),
       catchError((e) => {
         return throwError(() => e);
