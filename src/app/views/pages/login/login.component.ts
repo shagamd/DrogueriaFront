@@ -38,8 +38,7 @@ export class LoginComponent implements OnInit {
 
   login(): void {
     if (
-      this.authRequest.username == null ||
-      this.authRequest.password == null
+      this.isEmpty(this.authRequest.username) || this.isEmpty(this.authRequest.password)
     ) {
       Swal.fire('Error Login', 'Email o contraseña vacios', 'warning');
       return;
@@ -76,5 +75,9 @@ export class LoginComponent implements OnInit {
 
   redigirRecuperarContrasena(): void {
     this.router.navigate(['/recuperar_password']);
+  }
+
+  isEmpty(str: string | null): boolean {
+    return str === null || str.trim() === '';
   }
 }
