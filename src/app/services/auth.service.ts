@@ -46,7 +46,7 @@ export class AuthService {
   }
 
   login(usuario: AuthRequest): Observable<AuthResponse> {
-    const urlEndPoint = AppSettings.API_AUTH + '/login';
+    const urlEndPoint = AppSettings.API_ENDPOINT + '/auth /login';
 
     const httpHeaders = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -114,7 +114,7 @@ export class AuthService {
   }
 
   refreshToken(token: string) {
-    const urlEndPoint = AppSettings.API_AUTH + '/acaVaRefresh';
+    const urlEndPoint = AppSettings.API_ENDPOINT + '/auth/acaVaRefresh';
 
     const httpHeaders = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -140,7 +140,7 @@ export class AuthService {
     // sessionStorage.removeItem('token');
     // sessionStorage.removeItem('usuario');
 
-    const urlEndPoint = AppSettings.API_AUTH + '/logout';
+    const urlEndPoint = AppSettings.API_ENDPOINT + '/auth/logout';
 
     const httpHeaders = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -183,7 +183,7 @@ export class AuthService {
     documento: string,
     codigoVerificacion: string
   ): Observable<GenericResponse> {
-    const urlEndPoint = AppSettings.API_AUTH + '/cambiarClave';
+    const urlEndPoint = AppSettings.API_ENDPOINT + '/auth/cambiarClave';
 
     const httpHeaders = new HttpHeaders({
       'Content-Type': 'application/json',
