@@ -23,6 +23,8 @@ import { AdministrarImpuestosComponent } from './administrar-impuestos/administr
 import { GestionarImpuestosComponent } from './administrar-impuestos/gestionar-impuestos/gestionar-impuestos.component';
 import { GestionarGrupoImpuestosComponent } from './administrar-impuestos/gestionar-grupo-impuestos/gestionar-grupo-impuestos.component';
 import { DetalleProductoComponent } from './administrar-productos/detalle-producto/detalle-producto.component';
+import { AdministrarPuntosventaComponent } from './administrar-puntosventa/administrar-puntosventa.component';
+import { GestionarPuntoventaComponent } from './administrar-puntosventa/gestionar-puntoventa/gestionar-puntoventa.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +45,8 @@ import { DetalleProductoComponent } from './administrar-productos/detalle-produc
     GestionarImpuestosComponent,
     GestionarGrupoImpuestosComponent,
     DetalleProductoComponent,
+    AdministrarPuntosventaComponent,
+    GestionarPuntoventaComponent,
   ],
   imports: [
     CommonModule,

@@ -13,14 +13,21 @@ export class AdministrarLaboratoriosComponent implements OnInit {
   @ViewChild('gestionLaboratorio') gestionLaboratorioChild: GestionarLaboratorioComponent;
   arLaboratorios: Laboratorio[] = [];
 
+  currentPage = 1;
+  totalPages = 0;
+  palabraBusqueda: string = '';
+
   constructor(private laboratorioService: LaboratorioService) {}
 
   ngOnInit(): void {
     this.listarLaboratorios();
   }
 
-  listarLaboratorios(): void {
-    this.laboratorioService.listarLaboratorios().subscribe((x) => (this.arLaboratorios = x));
+  listarLaboratorios(pagina: number = 0): void {
+    this.laboratorioService.listarLaboratorios(this.palabraBusqueda, pagina).subscribe((response) => {
+      this.arLaboratorios = response.arDatos;
+      this.totalPages = response.totalPaginas;
+    });
   }
 
   crearLaboratorio(laboratorio: Laboratorio = new Laboratorio()) {
@@ -37,5 +44,10 @@ export class AdministrarLaboratoriosComponent implements OnInit {
         this.laboratorioService.eliminarLaboratorio(laboratorio).subscribe((res) => Swal.fire('', res.mensaje).then((x) => this.listarLaboratorios()));
       }
     });
+  }
+
+  onPageChange(page: number) {
+    this.currentPage = page;
+    this.listarLaboratorios(page);
   }
 }

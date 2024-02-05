@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, catchError, throwError } from 'rxjs';
 import { Laboratorio } from '../classes/laboratorio';
 import { GenericResponse } from '../classes/genericResponse.model';
+import { PaginationResponse } from '../classes/paginationResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -13,8 +14,9 @@ export class LaboratorioService {
 
   constructor(private http: HttpClient) {}
 
-  listarLaboratorios(): Observable<Laboratorio[]> {
-    return this.http.get<Laboratorio[]>(this.urlEndPoint + '/listar').pipe(
+  listarLaboratorios(palabraBusqueda: string, pagina: number): Observable<PaginationResponse> {
+    let request: any = { palabraBusqueda, pagina };
+    return this.http.post<PaginationResponse>(this.urlEndPoint + '/listar', request).pipe(
       catchError((e) => {
         return throwError(() => e);
       })

@@ -1,6 +1,17 @@
 <c-container fluid>
-  <c-card
-    ><c-card-body class="py-2">
+  <c-card class="mb-2"><c-card-body class="py-2 fs-9">
+      <c-row>
+        <c-col cCol="3">
+          <label cLabel class="fw-bold mb-1">Nombre / Descripción</label>
+          <input cFormControl sizing="xs" type="text" class="padding-input fs-9" [(ngModel)]="palabraBusqueda" (keyup.enter)="onPageChange(1)" />
+        </c-col>
+        <c-col cCol="2">
+          <label cLabel class="fw-bold mb-1">&nbsp;</label><br />
+          <button cButton color="primary" class="button_padding px-3 fs-9" (click)="onPageChange(1)">Buscar</button>
+        </c-col>
+      </c-row>
+    </c-card-body></c-card>
+  <c-card><c-card-body class="py-2">
       <c-row>
         <c-col cCol="12" class="fs-9 my-1">
           <button cButton color="primary" class="button_padding px-3 fs-9" (click)="crearCategoria()">Crear Categoria</button>
@@ -19,39 +30,24 @@
             <tbody>
               <tr *ngFor="let categoria of arCategorias">
                 <td class="py-1 px-2 wt-10">
-                  <c-row>
-                    <c-col cCol="5">
-                      <button
-                        cButton
-                        color="success"
-                        cTooltip="Editar"
-                        cTooltipPlacement="top"
-                        class="btn-general fs-9 w-auto px-1 d-inline-flex align-items-center"
-                        (click)="editarCategoria(categoria)"
-                      >
-                        <svg cIcon name="cilPencil" size="xs"></svg>
-                      </button>
-                    </c-col>
-                    <c-col cCol="5">
-                      <button
-                        cButton
-                        color="danger"
-                        cTooltip="Eliminar"
-                        cTooltipPlacement="top"
-                        class="btn-general fs-9 w-auto px-1 d-inline-flex align-items-center"
-                        (click)="eliminarCategoria(categoria)"
-                      >
-                        <svg cIcon name="cilTrash" size="xs"></svg>
-                      </button>
-                    </c-col>
-                  </c-row>
+                  <c-dropdown variant="btn-group">
+                    <button cButton cDropdownToggle color="primary" class="btn-general fs-9">
+                      Acciones
+                    </button>
+                    <ul cDropdownMenu class="fs-7">
+                      <li><a cDropdownItem (click)="editarCategoria(categoria)" class="pointer"><svg cIcon name="cilPencil" size="xs"></svg> Editar</a></li>
+                      <li><a cDropdownItem (click)="eliminarCategoria(categoria)" class="pointer"><svg cIcon name="cilTrash" size="xs"></svg> Eliminar</a></li>
+                    </ul>
+                  </c-dropdown>
                 </td>
                 <td class="py-1 px-2 wt-25 align-middle">{{ categoria.nombre }}</td>
                 <td class="py-1 px-2 align-middle">{{ categoria.descripcion }}</td>
               </tr>
             </tbody>
-            <!-- <c-avatar size="md" src="{{ user.avatar }}" status="{{ user.status }}"></c-avatar> -->
           </table>
+        </c-col>
+        <c-col cCol="12">
+          <app-pagination-table [currentPage]="currentPage" [totalPages]="totalPages" (pageChange)="onPageChange($event)"></app-pagination-table>
         </c-col>
       </c-row>
     </c-card-body>

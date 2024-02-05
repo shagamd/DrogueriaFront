@@ -13,14 +13,21 @@ export class AdministrarCategoriasComponent implements OnInit {
   @ViewChild('gestionCategoria') gestionCategoriaChild: GestionarCategoriaComponent;
   arCategorias: Categoria[] = [];
 
+  currentPage = 1;
+  totalPages = 0;
+  palabraBusqueda: string = '';
+
   constructor(private categoriaService: CategoriaService) {}
 
   ngOnInit(): void {
     this.listarCategorias();
   }
 
-  listarCategorias(): void {
-    this.categoriaService.listarCategorias().subscribe((x) => (this.arCategorias = x));
+  listarCategorias(pagina: number = 0): void {
+    this.categoriaService.listarCategorias(this.palabraBusqueda, pagina).subscribe((response) => {
+      this.arCategorias = response.arDatos;
+      this.totalPages = response.totalPaginas;
+    });
   }
 
   crearCategoria(categoria: Categoria = new Categoria()) {
@@ -36,5 +43,10 @@ export class AdministrarCategoriasComponent implements OnInit {
         this.categoriaService.eliminarCategoria(categoria).subscribe((res) => Swal.fire('', res.mensaje).then((x) => this.listarCategorias()));
       }
     });
+  }
+
+  onPageChange(page: number) {
+    this.currentPage = page;
+    this.listarCategorias(page);
   }
 }

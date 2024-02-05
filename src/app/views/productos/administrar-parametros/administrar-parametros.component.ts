@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./administrar-parametros.component.scss'],
 })
 export class AdministrarParametrosComponent implements OnInit {
-  public panes = [{ name: 'Laboratorios' }, { name: 'Categorias' }, { name: 'Tipo Observacion' },{name: 'Unidades Medida'}, {name: "Impuestos"}];
+  public panes = [{ name: 'Laboratorios' }, { name: 'Categorias' }, { name: 'Tipo Observacion' },{name: 'Unidades Medida'}, {name: "Impuestos"}, {name: "Puntos Venta"}];
 
   activePane = 0;
 
