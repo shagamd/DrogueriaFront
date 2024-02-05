@@ -46,7 +46,7 @@ export class AuthService {
   }
 
   login(usuario: AuthRequest): Observable<AuthResponse> {
-    const urlEndPoint = AppSettings.API_ENDPOINT + '/auth /login';
+    const urlEndPoint = AppSettings.API_ENDPOINT + '/auth/login';
 
     const httpHeaders = new HttpHeaders({
       'Content-Type': 'application/json',

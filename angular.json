@@ -41,7 +41,9 @@
             ],
             "scripts": [],
             "allowedCommonJsDependencies": [
-              "chart.js"
+              "chart.js",
+              "buffer",
+              "sweetalert2"
             ]
           },
           "configurations": {
