@@ -4,5 +4,5 @@
 // }
 // Calidad productivo
 export class AppSettings {
-  public static API_ENDPOINT = 'https://krampos.com/api';
+  public static API_ENDPOINT = 'https://www.krampos.com/api';
 }
