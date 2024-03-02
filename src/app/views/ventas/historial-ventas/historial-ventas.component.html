@@ -1,0 +1,104 @@
+<c-container fluid>
+    <c-card class="mb-2"><c-card-body class="py-2 fs-9">
+            <c-row>
+                <c-col cCol="2">
+                    <label cLabel class="fw-bold mb-1">Fecha Factura</label>
+                    <input cFormControl [ngModel]="fechaFactura | date | titlecase" (ngModelChange)="fechaFactura = $event" class="fs-9" type="date" />
+                </c-col>
+                <c-col cCol="2">
+                    <label cLabel class="fw-bold mb-1">&nbsp;</label><br />
+                    <button cButton color="primary" class="button_padding px-3 fs-9" (click)="listarFacturas()">Buscar</button>
+                </c-col>
+            </c-row>
+        </c-card-body></c-card>
+    <c-card><c-card-body class="py-2">
+            <c-row>
+                <c-col cCol="12">
+                    <table cTable bordered hover>
+                        <thead cTableColor="dark" class="fs-8">
+                            <tr>
+                                <th class="py-1 px-2 wt-10 text-center">Detalle</th>
+                                <th class="py-1 px-2">Fecha Factura</th>
+                                <th class="py-1 px-2">Cliente Factura</th>
+                                <th class="py-1 px-2">Estado Factura</th>
+                                <th class="py-1 px-2">Medio Pago</th>
+                                <th class="py-1 px-2">Total Factura</th>
+                            </tr>
+                        </thead>
+                        <tbody class="fs-9">
+                            <ng-container *ngFor="let factura of arFacturas">
+                                <tr>
+                                    <td class="py-1 px-2 wt-10 text-center">
+                                        <button cButton color="primary" class="button_padding px-2 fs-9" (click)="factura.itemVisible = !factura.itemVisible">Ver Detalle</button>
+                                    </td>
+                                    <td class="py-1 px-2 align-middle">
+                                        {{factura.fechaFactura | date:'MMM dd, yyyy hh:mm a' | titlecase }}
+                                    </td>
+                                    <td class="py-1 px-2 align-middle">
+                                        {{ factura.cliente.documento +' - '+ factura.cliente.nombre }}
+                                    </td>
+                                    <td class="py-1 px-2 align-middle">
+                                        {{factura.estadoFactura.estado}}
+                                    </td>
+                                    <td class="py-1 px-2 align-middle text-left">{{factura.medioPago.nombre}}
+                                    </td>
+                                    <td class="py-1 px-2 align-middle text-end">$ {{factura.total | number}}
+                                    </td>
+                                </tr>
+                                <tr [hidden]="!factura.itemVisible">
+                                    <td colspan="6">
+                                        <div cCollapse [visible]="factura.itemVisible">
+                                            <table cTable bordered hover class="my-0">
+                                                <thead cTableColor="dark" class="fs-8">
+                                                    <tr>
+                                                        <th class="py-1 px-2">Producto</th>
+                                                        <th class="py-1 px-2">Unida Medida</th>
+                                                        <th class="py-1 px-2">Cantidad</th>
+                                                        <th class="py-1 px-2">Precio Unitario</th>
+                                                        <th class="py-1 px-2">Total Producto</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="fs-9">
+                                                    <tr *ngFor="let itemFactura of factura.detalleFactura">
+                                                        <td class="py-1 px-2 align-middle">
+                                                            {{ itemFactura.producto.nombre }}
+                                                        </td>
+                                                        <td class="py-1 px-2 align-middle">
+                                                            {{ itemFactura.unidadMedida.nombre +'('+itemFactura.unidadMedida.abreviatura+')' }}
+                                                        </td>
+                                                        <td class="py-1 px-2 align-middle">
+                                                            {{ itemFactura.cantidad }}
+                                                        </td>
+                                                        <td class="py-1 px-2 align-middle">
+                                                            $ {{ itemFactura.precioUnitario | number }}
+                                                        </td>
+                                                        <td class="py-1 px-2 align-middle">
+                                                            $ {{ itemFactura.valorTotal }}
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </ng-container>
+                        </tbody>
+                        <tfoot class="fs-7">
+                            <tr>
+                                <td colspan="5" class="text-end">
+                                    Total para {{ fechaTotalFactura | date | titlecase }}
+                                </td>
+                                <td class="text-end">
+                                    $ {{valorTotalFacturas | number}}
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </c-col>
+                <c-col cCol="12">
+                    <app-pagination-table [currentPage]="currentPage" [totalPages]="totalPages" (pageChange)="onPageChange($event)"></app-pagination-table>
+                </c-col>
+            </c-row>
+        </c-card-body>
+    </c-card>
+</c-container>

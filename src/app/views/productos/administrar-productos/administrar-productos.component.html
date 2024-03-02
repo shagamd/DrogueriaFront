@@ -104,5 +104,5 @@
   <app-gestionar-producto #gestionarProducto (recargarDatos)="listarProductos()"></app-gestionar-producto>
   <app-administrar-observaciones #gestionObservaciones (recargarDatos)="listarProductos()"></app-administrar-observaciones>
   <app-administrar-precios #gestionarPrecios (recargarDatos)="listarProductos()"></app-administrar-precios>
-  <app-detalle-producto #detalleProducto [productoGestion]="productoDetalle"></app-detalle-producto>
+  <app-detalle-producto #detalleProducto [productoGestion]="productoDetalle" (limpiarProducto)="limpiarProductoDetalle()"></app-detalle-producto>
 </c-container>

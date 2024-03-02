@@ -5,6 +5,7 @@ import { UnidadMedida } from './unidadMedida';
 import { UnidadPorEmpaque } from './unidadPorEmpaque';
 import { Precio } from './precio';
 import { GrupoImpuesto } from './grupoImpuestos';
+import { Inventario } from './inventario';
 
 export class Producto {
   id: number;
@@ -18,9 +19,17 @@ export class Producto {
   arObservaciones: ObservacionProducto[] = [];
   arUnidadesPorEmpaque: UnidadPorEmpaque[] = [];
   arPrecios: Precio[] = [];
+  arInventario: Inventario[] = [];
   grupoImpuestos: GrupoImpuesto = undefined;
   unidadMedidaVenta: UnidadMedida = undefined;
   fechaRegistro: Date = new Date();
+}
+
+export class ProductoResumen {
+  id: number;
+  nombre: string;
+  arPrecios: Precio[] = [];
+  arInventario: Inventario[] = [];
 }
 
 export class CombosGestionProductos {

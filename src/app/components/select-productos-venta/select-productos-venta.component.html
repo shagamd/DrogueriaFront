@@ -1,0 +1,5 @@
+<ng-select [minTermLength]="minLengthTerm" [loading]="productsLoading" typeToSearchText="Por favor ingrese al menos {{minLengthTerm}} o mas letras" [typeahead]="filtroBusqueda$" [ngModel]="variable"
+    (ngModelChange)="seleccionarProducto($event)" class="fs-9 custom">
+    <!-- <ng-option [value]="undefined">-- Seleccione --</ng-option> -->
+    <ng-option *ngFor="let product of products$ | async" [value]="product">{{product.nombre}}</ng-option>
+</ng-select>

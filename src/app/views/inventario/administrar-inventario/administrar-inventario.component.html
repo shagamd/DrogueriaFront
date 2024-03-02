@@ -1,0 +1,91 @@
+<c-container fluid>
+    <c-card class="mb-2"><c-card-body class="py-2 fs-9">
+            <c-row>
+                <c-col cCol="3">
+                    <label cLabel class="fw-bold mb-1">Producto / Lote</label>
+                    <input cFormControl sizing="xs" type="text" class="padding-input fs-9" [(ngModel)]="palabraBusqueda" (keypress)="pressEnter($event)" />
+                </c-col>
+                <c-col cCol="2">
+                    <label cLabel class="fw-bold mb-1">Estado Inventario</label>
+                    <select cSelect sizing="xs" class="fs-9" [(ngModel)]="vigentes">
+                        <option [ngValue]="undefined">Todos</option>
+                        <option [ngValue]="true">Vigentes</option>
+                        <option [ngValue]="false">Vencidos</option>
+                    </select>
+                </c-col>
+                <c-col cCol="2">
+                    <label cLabel class="fw-bold mb-1">&nbsp;</label><br />
+                    <button cButton color="primary" class="button_padding px-3 fs-9" (click)="onPageChange(1)">Buscar</button>
+                </c-col>
+            </c-row>
+        </c-card-body></c-card>
+    <c-card><c-card-body class="py-2">
+            <c-row>
+                <c-col cCol="12" class="fs-9 my-1">
+                    <button cButton color="primary" class="button_padding px-3 fs-9" (click)="administrarInventario()">Registrar Inventario</button>
+                </c-col>
+                <c-col cCol="12">
+                    <table cTable bordered hover>
+                        <thead cTableColor="dark" class="fs-8">
+                            <tr>
+                                <th class="py-1 wt-10">
+                                    <svg cIcon name="cilListRich"></svg>
+                                </th>
+                                <th class="py-1 px-2">Producto / Punto Venta</th>
+                                <th class="py-1 px-2">Lote/Ctd</th>
+                                <!-- <th class="py-1 px-2">Lote</th>
+                                <th class="py-1 px-2" cTooltip="Cantidad|Unidad Medida Venta">Ctd/UMV</th> -->
+                                <!-- <th class="py-1 px-2" cTooltip="Unidad Medida Venta">UMV</th> -->
+                                <th class="py-1 px-2">Fec. Vencimiento</th>
+                                <!-- <th class="py-1 px-2">Observaciones</th> -->
+                            </tr>
+                        </thead>
+                        <tbody class="fs-9">
+                            <tr *ngFor="let inventario of arInventario">
+                                <td class="py-1 px-2 align-middle">
+                                    <c-row class="px-2">
+                                        <c-dropdown variant="btn-group">
+                                            <button cButton cDropdownToggle color="primary" class="btn-general fs-9">
+                                                Acciones
+                                            </button>
+                                            <ul cDropdownMenu class="fs-7">
+                                                <li><a cDropdownItem (click)="administrarInventario(inventario)" class="pointer"><svg cIcon name="cilPencil" size="xs"></svg> Editar</a></li>
+                                                <li><a cDropdownItem (click)="eliminarInventario(inventario)" class="pointer"><svg cIcon name="cilTrash" size="xs"></svg> Eliminar</a></li>
+                                            </ul>
+                                        </c-dropdown>
+                                    </c-row>
+                                </td>
+                                <td class="py-1 px-2 align-middle">
+                                    <b>Prod: </b>{{ inventario.producto.nombre }}<br /><b>PuntoV: </b>{{ inventario.puntoVenta?.nombre }}
+                                </td>
+                                <td class="py-1 px-2 align-middle">
+                                    <b>Lote: </b>{{ inventario.lote }}<br />
+                                    <b>Cantidad: </b>{{ inventario.cantidad }} - {{ inventario.unidadMedida.nombre }}
+                                </td>
+                                <!-- <td class="py-1 px-2 align-middle text-left">
+                                    {{ inventario.lote }}
+                                </td>
+                                <td class="py-1 px-2 align-middle text-left">
+                                    {{ inventario.cantidad }} - {{ inventario.unidadMedida.nombre }}
+                                </td> -->
+                                <!-- <td class="py-1 px-2 align-middle text-center">
+                                    {{ inventario.unidadMedida.abreviatura }}
+                                </td> -->
+                                <td class="py-1 px-2 align-middle text-left">
+                                    {{ inventario.fechaVencimiento ? (inventario.fechaVencimiento | date | titlecase) : "No Aplica" }}
+                                </td>
+                                <!-- <td class="py-1 px-2 align-middle wt-20">
+                                    {{ inventario.observaciones }}<br />
+                                </td> -->
+                            </tr>
+                        </tbody>
+                    </table>
+                </c-col>
+                <c-col cCol="12">
+                    <app-pagination-table [currentPage]="currentPage" [totalPages]="totalPages" (pageChange)="onPageChange($event)"></app-pagination-table>
+                </c-col>
+            </c-row>
+        </c-card-body>
+    </c-card>
+    <app-gestionar-inventario #gestionInventario (recargarDatos)="listarInventario()"></app-gestionar-inventario>
+</c-container>

@@ -2,7 +2,7 @@ import { PaginationResponse } from './../classes/paginationResponse';
 import { Injectable } from '@angular/core';
 import { AppSettings } from '../app-settings';
 import { HttpClient } from '@angular/common/http';
-import { Producto } from '../classes/producto';
+import { Producto, ProductoResumen } from '../classes/producto';
 import { GenericResponse } from '../classes/genericResponse.model';
 import { Observable, catchError, map, throwError } from 'rxjs';
 import { TipoObservacion } from '../classes/tipoObservacion';
@@ -46,6 +46,14 @@ export class ProductoService {
     );
   }
 
+  productsForSelect(): Observable<ProductoResumen[]> {
+    return this.http.get<ProductoResumen[]>(this.urlEndPoint + '/productsForSelect').pipe(
+      catchError((e) => {
+        return throwError(() => e);
+      })
+    );
+  }
+
   administrarProducto(producto: Producto, file: File | undefined = undefined): Observable<GenericResponse> {
     var formData: any = new FormData();
     formData.append('producto', new Blob([JSON.stringify(producto)], { type: 'application/json' }));
@@ -67,6 +75,14 @@ export class ProductoService {
 
   cargarTiposObservacion(): Observable<TipoObservacion[]> {
     return this.http.get<TipoObservacion[]>(`${this._urlEndPoint}/cargarTiposObservacion`).pipe(
+      catchError((e) => {
+        return throwError(() => e);
+      })
+    );
+  }
+
+  getProductosVenta(filtroBusqueda: string): Observable<ProductoResumen[]> {
+    return this.http.post<ProductoResumen[]>(this.urlEndPoint + '/getProductosVenta', filtroBusqueda).pipe(
       catchError((e) => {
         return throwError(() => e);
       })

@@ -5,3 +5,8 @@ export class PuntoVenta {
     telefono: string;
     datosExtra: string;
 }
+
+export class PuntoVentaResumen {
+    id: number;
+    nombre: string;
+}

@@ -89,6 +89,10 @@ export class AdministrarProductosComponent implements OnInit {
     this.detalleProductoChild.mostrarDetalle();
   }
 
+  limpiarProductoDetalle() :void {
+    this.productoDetalle = new Producto();
+  }
+
   onPageChange(page: number) {
     this.currentPage = page;
     this.listarProductos(page);

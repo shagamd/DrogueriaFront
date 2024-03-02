@@ -1,0 +1,124 @@
+<c-container fluid>
+    <c-card class="mb-2">
+        <c-card-body class="py-2 fs-9">
+            <c-row>
+                <c-col cCol="6">
+                    <label cLabel class="fw-bold mb-1">Producto</label>
+                    <app-select-productos-venta (variableCambiada)="recibirProducto($event)"></app-select-productos-venta>
+                </c-col>
+            </c-row>
+        </c-card-body>
+    </c-card>
+    <c-card><c-card-body class="py-2 fs-9">
+            <c-row>
+                <c-col cCol="3">
+                    <label cLabel cCol="4" class="fw-bold">Documento</label>
+                    <input type="text" cCol="8" class="text-center padding-input" disabled [value]="factura.cliente?.documento" />
+                </c-col>
+                <c-col cCol="3">
+                    <label cLabel cCol="3" class="fw-bold">Nombre</label>
+                    <input type="text" cCol="9" class="text-center padding-input" disabled [value]="factura.cliente?.nombre" />
+                </c-col>
+                <c-col cCol="3">
+                    <label cLabel cCol="4" class="fw-bold">Pto Venta</label>
+                    <input type="text" cCol="8" class="text-center padding-input" disabled [value]="authService.usuario.puntoVenta.nombre" />
+                </c-col>
+                <c-col cCol="3">
+                    <label cLabel cCol="4" class="fw-bold">Fec Factura</label>
+                    <input type="text" cCol="8" class="text-center padding-input" [ngModel]="factura.fechaFactura | date:'MMM dd, yyyy hh:mm a' | titlecase" disabled [value]="'Drogueria Provesalud'" />
+                </c-col>
+                <c-col cCol="12">
+                    <table cTable bordered hover>
+                        <thead cTableColor="dark" class="fs-8">
+                            <tr>
+                                <th class="py-1 wt-5">
+                                    <svg cIcon name="cilListRich"></svg>
+                                </th>
+                                <th class="py-1 px-2">Producto</th>
+                                <th class="py-1 px-2 wt-15">UMV</th>
+                                <th class="py-1 px-2">Inv.</th>
+                                <th class="py-1 px-2">Vlr.Unitario</th>
+                                <th class="py-1 px-2">Ctd.</th>
+                                <th class="py-1 px-2">Vlr.Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let itemFactura of factura.detalleFactura">
+                                <td class="py-1 px-2 align-middle">
+                                    <c-row class="px-2">
+                                        <c-dropdown variant="btn-group">
+                                            <button cButton color="danger" size="sm" class="px-1 py-0" (click)="eliminarItem(itemFactura)">
+                                                <svg cIcon name="cilTrash" size="xs"></svg>
+                                            </button>
+                                        </c-dropdown>
+                                    </c-row>
+                                </td>
+                                <td class="py-1 px-2 align-middle">
+                                    {{ itemFactura.producto.nombre }}
+                                </td>
+                                <td class="py-1 px-2 align-middle wt-15">
+                                    <select cSelect sizing="xs" class="fs-9" [(ngModel)]="itemFactura.unidadMedida" [compareWith]="compareUnidadMedidaVenta">
+                                        <ng-container *ngFor="let unidadMedida of getUnidadesMedida(itemFactura.producto)">
+                                            <option [ngValue]="unidadMedida">{{ unidadMedida.nombre + '('+unidadMedida.abreviatura+')' }}</option>
+                                        </ng-container>
+                                    </select>
+                                </td>
+                                <td class="py-1 px-2 align-middle">
+                                    {{ getInventarioProducto(itemFactura.producto, itemFactura.unidadMedida).cantidad }}
+                                </td>
+                                <td class="py-1 px-2 align-middle">
+                                    $ {{ itemFactura.precioUnitario | number }}
+                                </td>
+                                <td class="py-1 px-2 align-middle wt-10">
+                                    <input cFormControl sizing="xs" type="number" class="padding-input fs-9" [max]="maxCantidadProducto(itemFactura)" [(ngModel)]="itemFactura.cantidad" [OnlyNumber]="true" (input)="recalcularTotales()"
+                                        (change)="recalcularTotales()" />
+                                </td>
+                                <td class="py-1 px-2 align-middle">
+                                    $ {{ itemFactura.valorTotal | number }}
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tfoot class="fs-5">
+                            <td colspan="6" class="text-end px-3 fw-bold">Total a pagar</td>
+                            <td>$ {{ factura.total | number }}</td>
+                        </tfoot>
+                    </table>
+                </c-col>
+                <c-col cCol="2">
+                    <label cLabel cCol="6" class="fw-bold px-0">Tipo Pago</label>
+                    <select cCol="6" cSelect sizing="xs" class="fs-9" [(ngModel)]="tipoPagoSeleccionado" [compareWith]="compareTipoPago" (change)="factura.medioPago = undefined">
+                        <ng-container *ngFor="let tipoPago of arTiposPago">
+                            <option [ngValue]="tipoPago">{{ tipoPago.nombre }}</option>
+                        </ng-container>
+                    </select>
+                </c-col>
+                <c-col cCol="3">
+                    <label cLabel cCol="4" class="fw-bold">Medio Pago</label>
+                    <select cSelect sizing="xs" class="fs-9" [(ngModel)]="factura.medioPago" [compareWith]="compareMedioPago">
+                        <ng-container *ngFor="let medioPago of tipoPagoSeleccionado?.arMedioPago">
+                            <option [ngValue]="medioPago">{{ medioPago.nombre }}</option>
+                        </ng-container>
+                    </select>
+                </c-col>
+                <c-col cCol="3" *ngIf="aplicaSoportePago()">
+                    <label cLabel cCol="4" class="fw-bold">Soporte</label>
+                    <input cFormControl type="text" cCol="8" class="text-center padding-input" [(ngModel)]="factura.soportePago" />
+                </c-col>
+                <c-col cCol="2">
+                    <label cLabel cCol="5" class="fw-bold">Recibido</label>
+                    <input cFormControl sizing="xs" type="number" class="padding-input fs-9" [OnlyNumber]="true" cCol="7" [(ngModel)]="totalRecibido" />
+                </c-col>
+                <c-col cCol="2">
+                    <label cLabel cCol="5" class="fw-bold">Cambio</label>
+                    <input cFormControl sizing="xs" type="text" cCol="7" class="padding-input fs-9" disabled [value]="totalRecibido - factura.total" />
+                </c-col>
+                <c-col cCol="12">
+                    <!-- <app-pagination-table [currentPage]="currentPage" [totalPages]="totalPages" (pageChange)="onPageChange($event)"></app-pagination-table> -->
+                </c-col>
+            </c-row>
+        </c-card-body>
+        <c-card-footer class="text-end">
+            <button cButton color="primary" class="btn-general fs-9 w-auto px-4" (click)="registrarVenta()">Registrar Venta</button>
+        </c-card-footer>
+    </c-card>
+</c-container>
