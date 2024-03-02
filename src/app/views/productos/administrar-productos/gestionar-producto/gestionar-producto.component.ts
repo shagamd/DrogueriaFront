@@ -76,9 +76,9 @@ export class GestionarProductoComponent implements OnInit {
     if (this.productoGestion.nombre.trim() == '') {
       arErrores.push('El nombre es obligatorio');
     }
-    if (this.productoGestion.descripcion.trim() == '') {
-      arErrores.push('La descripción es obligatoria');
-    }
+    // if (this.productoGestion.descripcion.trim() == '') {
+    //   arErrores.push('La descripción es obligatoria');
+    // }
     if (this.productoGestion.categoria == undefined || this.productoGestion.laboratorio == undefined) {
       arErrores.push('La categoria y laboratorio son obligatorios');
     }
