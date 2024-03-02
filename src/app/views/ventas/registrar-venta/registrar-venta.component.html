@@ -57,7 +57,7 @@
                                     {{ itemFactura.producto.nombre }}
                                 </td>
                                 <td class="py-1 px-2 align-middle wt-15">
-                                    <select cSelect sizing="xs" class="fs-9" [(ngModel)]="itemFactura.unidadMedida" [compareWith]="compareUnidadMedidaVenta">
+                                    <select cSelect sizing="xs" class="fs-9" [ngModel]="itemFactura.unidadMedida" (ngModelChange)="modificarUnidadMedida(itemFactura, $event)" [compareWith]="compareUnidadMedidaVenta">
                                         <ng-container *ngFor="let unidadMedida of getUnidadesMedida(itemFactura.producto)">
                                             <option [ngValue]="unidadMedida">{{ unidadMedida.nombre + '('+unidadMedida.abreviatura+')' }}</option>
                                         </ng-container>

@@ -128,6 +128,7 @@ export class RegistrarVentaComponent implements OnInit {
   modificarUnidadMedida(itemFacutura: FacturaDetalle, unidadMedida: UnidadMedida) {
     itemFacutura.unidadMedida = unidadMedida;
     itemFacutura.precioUnitario = itemFacutura.producto.arPrecios.find(el => el.unidadMedida.id == unidadMedida.id).valorVenta;
+    this.recalcularTotales();
   }
 
   registrarVenta(): void {
