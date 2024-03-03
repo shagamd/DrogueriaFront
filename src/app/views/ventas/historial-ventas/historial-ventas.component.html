@@ -3,7 +3,7 @@
             <c-row>
                 <c-col cCol="2">
                     <label cLabel class="fw-bold mb-1">Fecha Factura</label>
-                    <input cFormControl [ngModel]="fechaFactura | date | titlecase" (ngModelChange)="fechaFactura = $event" class="fs-9" type="date" />
+                    <input cFormControl [ngModel]="fechaFactura" (ngModelChange)="fechaFactura = $event" class="fs-9" type="date" />
                 </c-col>
                 <c-col cCol="2">
                     <label cLabel class="fw-bold mb-1">&nbsp;</label><br />

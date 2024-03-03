@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Factura } from 'src/app/classes/factura';
 import { FacturaService } from 'src/app/services/factura.service';
@@ -9,7 +10,7 @@ import { FacturaService } from 'src/app/services/factura.service';
 })
 export class HistorialVentasComponent implements OnInit {
 
-  fechaFactura: Date = new Date();
+  fechaFactura: string;
   arFacturas: Factura[] = [];
   valorTotalFacturas: number = 0;
   fechaTotalFactura: Date = new Date();
@@ -17,9 +18,11 @@ export class HistorialVentasComponent implements OnInit {
   currentPage = 1;
   totalPages = 0;
 
-  constructor(private facturaService: FacturaService) { }
+  constructor(private facturaService: FacturaService) {
+  }
 
   ngOnInit(): void {
+    this.fechaFactura = this.getFechaActualString();
     this.listarFacturas();
   }
 
@@ -35,5 +38,18 @@ export class HistorialVentasComponent implements OnInit {
   onPageChange(page: number) {
     this.currentPage = page;
     this.listarFacturas(page);
+  }
+
+  getFechaActualString(): string {
+    let fecha = new Date();
+    let fechaFormateada = fecha.getFullYear() + '-' + this.pad(fecha.getMonth() + 1, 2) + '-' + this.pad(fecha.getDate(), 2);
+    return fechaFormateada;
+
+  }
+
+  pad(num: number, size: number): string {
+    let s = num + "";
+    while (s.length < size) s = "0" + s;
+    return s;
   }
 }

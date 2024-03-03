@@ -14,7 +14,8 @@ export class FacturaService {
 
   constructor(private http: HttpClient) {}
 
-  listarFacturasPorFecha(fechaFactura: Date, pagina: number): Observable<PaginationResponse> {
+  listarFacturasPorFecha(fechaFactura: string, pagina: number): Observable<PaginationResponse> {
+    fechaFactura = fechaFactura + 'T00:00:00';
     return this.http.post<PaginationResponse>(this.urlEndPoint + '/listarFacturasXFecha', {fechaFactura, pagina}).pipe(
       map(el => {
         el.arDatos.forEach((factura) => factura.itemVisible = false);
