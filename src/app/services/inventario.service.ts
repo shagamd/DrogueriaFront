@@ -30,7 +30,7 @@ export class InventarioService {
     );
   }
 
-  obtenerInventarioResumen(productoId: number) :Observable<InventarioResumen[]> {
+  obtenerInventarioResumen(productoId: number): Observable<InventarioResumen[]> {
     return this.http.post<InventarioResumen[]>(this.urlEndPoint + '/obtenerInventarioResumen', productoId).pipe(
       catchError((e) => {
         return throwError(() => e);
@@ -48,6 +48,14 @@ export class InventarioService {
 
   eliminarInventario(inventario: Inventario): Observable<GenericResponse> {
     return this.http.post<GenericResponse>(`${this._urlEndPoint}/eliminarInventario`, inventario).pipe(
+      catchError((e) => {
+        return throwError(() => e);
+      })
+    );
+  }
+
+  modificarInventario(inventario: Inventario): Observable<GenericResponse> {
+    return this.http.post<GenericResponse>(this.urlEndPoint + '/modificarInventario', inventario).pipe(
       catchError((e) => {
         return throwError(() => e);
       })

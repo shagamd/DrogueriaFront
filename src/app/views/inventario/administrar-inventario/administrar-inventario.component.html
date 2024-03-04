@@ -50,6 +50,7 @@
                                             </button>
                                             <ul cDropdownMenu class="fs-7">
                                                 <li><a cDropdownItem (click)="administrarInventario(inventario)" class="pointer"><svg cIcon name="cilPencil" size="xs"></svg> Editar</a></li>
+                                                <li><a cDropdownItem (click)="modificarInventarioEvent(inventario)" class="pointer"><svg cIcon name="cilCalculator" size="xs"></svg> Modificar Inv.</a></li>
                                                 <li><a cDropdownItem (click)="eliminarInventario(inventario)" class="pointer"><svg cIcon name="cilTrash" size="xs"></svg> Eliminar</a></li>
                                             </ul>
                                         </c-dropdown>
@@ -88,4 +89,5 @@
         </c-card-body>
     </c-card>
     <app-gestionar-inventario #gestionInventario (recargarDatos)="listarInventario()"></app-gestionar-inventario>
+    <app-modificar-inventario #modificarInventario (recargarDatos)="listarInventario()"></app-modificar-inventario>
 </c-container>

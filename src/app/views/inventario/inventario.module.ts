@@ -8,11 +8,13 @@ import { IconModule } from '@coreui/icons-angular';
 import { FormsModule } from '@angular/forms';
 import { AdministrarInventarioComponent } from './administrar-inventario/administrar-inventario.component';
 import { GestionarInventarioComponent } from './administrar-inventario/gestionar-inventario/gestionar-inventario.component';
+import { ModificarInventarioComponent } from './administrar-inventario/modificar-inventario/modificar-inventario.component';
 
 @NgModule({
   declarations: [
     AdministrarInventarioComponent,
-    GestionarInventarioComponent
+    GestionarInventarioComponent,
+    ModificarInventarioComponent
   ],
   imports: [
     CommonModule,

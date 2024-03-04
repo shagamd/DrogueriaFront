@@ -3,6 +3,7 @@ import { Inventario } from './../../../classes/inventario';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import Swal from 'sweetalert2';
 import { GestionarInventarioComponent } from './gestionar-inventario/gestionar-inventario.component';
+import { ModificarInventarioComponent } from './modificar-inventario/modificar-inventario.component';
 
 @Component({
   selector: 'app-administrar-inventario',
@@ -12,6 +13,7 @@ import { GestionarInventarioComponent } from './gestionar-inventario/gestionar-i
 export class AdministrarInventarioComponent implements OnInit {
 
   @ViewChild('gestionInventario') gestionInventarioChild: GestionarInventarioComponent;
+  @ViewChild('modificarInventario') modificarInventarioChild: ModificarInventarioComponent;
 
   palabraBusqueda: string = '';
   vigentes: boolean = undefined;
@@ -42,6 +44,10 @@ export class AdministrarInventarioComponent implements OnInit {
 
   administrarInventario(inventario: Inventario = new Inventario()): void {
     this.gestionInventarioChild.gestionarInventario(inventario);
+  }
+
+  modificarInventarioEvent(inventario: Inventario = new Inventario()): void {
+    this.modificarInventarioChild.modificarInventario(inventario);
   }
 
   eliminarInventario(inventario: Inventario): void {

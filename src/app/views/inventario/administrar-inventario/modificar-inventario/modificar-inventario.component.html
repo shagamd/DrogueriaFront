@@ -1,0 +1,61 @@
+<c-modal id="modalModificarInventario" [visible]="modalVisible" size="xl" [scrollable]="true" backdrop="static">
+    <c-modal-body>
+        <c-container fluid class="fs-9">
+            <c-card>
+                <c-card-header>
+                    <c-row>
+                        <c-col cCol="12">
+                            <h5 cCardTitle class="fs-6 fw-bold my-0">Modificar Inventario</h5>
+                        </c-col>
+                    </c-row>
+                </c-card-header>
+                <c-card-body>
+                    <c-row class="mb-2">
+                        <c-col cCol="12">
+                            <c-row>
+                                <c-col cCol="4">
+                                    <label cLabel class="fw-bold mb-1">Producto</label>
+                                    <input cFormControl sizing="xs" type="text" class="padding-input fs-9" [ngModel]="inventarioGestion.producto?.nombre" [disabled]="true" />
+                                </c-col>
+                                <c-col cCol="2">
+                                    <label cLabel class="fw-bold mb-1">Unidad Medida</label>
+                                    <input cFormControl sizing="xs" type="text" class="padding-input fs-9"  [ngModel]="inventarioGestion.unidadMedida?.nombre + ' ('+inventarioGestion.unidadMedida?.abreviatura+')'" [disabled]="true" />
+                                </c-col>
+                                <c-col cCol="3">
+                                    <label cLabel class="fw-bold mb-1">Lote</label>
+                                    <input cFormControl sizing="xs" type="text" class="padding-input fs-9" [ngModel]="inventarioGestion.lote" [disabled]="true" />
+                                </c-col>
+                                <c-col cCol="3">
+                                    <label cLabel class="fw-bold mb-1">Punto Venta</label>
+                                    <input cFormControl sizing="xs" type="text" class="padding-input fs-9" [ngModel]="inventarioGestion.puntoVenta?.nombre" [disabled]="true" />
+                                </c-col>
+                            </c-row>
+                            <c-row>
+                                <c-col cCol="3">
+                                    <label cLabel class="fw-bold mb-1">Cantidad Actual</label>
+                                    <input cFormControl sizing="xs" type="text" class="padding-input fs-9" [ngModel]="inventarioGestion.cantidad" [disabled]="true" />
+                                </c-col>
+                                <c-col cCol="3">
+                                    <label cLabel class="fw-bold mb-1">Ajuste Inventario</label>
+                                    <input cFormControl sizing="xs" type="number" class="padding-input fs-9" [ngModel]="ajusteInventario" (ngModelChange)="ajusteInventario = $event" (change)="validarMinimoInventario()" (input)="validarMinimoInventario()" [OnlyNumber]="true"/>
+                                </c-col>
+                                <c-col cCol="3">
+                                    <label cLabel class="fw-bold mb-1">Nuevo Inventario</label>
+                                    <input cFormControl sizing="xs" type="text" class="padding-input fs-9" [ngModel]="inventarioGestion.cantidad + ajusteInventario" [disabled]="true" />
+                                </c-col>
+                            </c-row>
+                        </c-col>
+                    </c-row>
+                </c-card-body>
+                <c-card-footer>
+                    <c-row>
+                        <c-col class="text-end">
+                            <button cButton (click)="guardarDatos()" color="primary" class="btn-general fs-9 w-auto px-4 me-2 btn-padding">Guardar</button>
+                            <button cButton (click)="cerrarModal()" color="danger" class="btn-general fs-9 w-auto px-4">Cerrar</button>
+                        </c-col>
+                    </c-row>
+                </c-card-footer>
+            </c-card>
+        </c-container>
+    </c-modal-body>
+</c-modal>
