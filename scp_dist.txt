@@ -1,0 +1,1 @@
+scp -r /Users/shagamd/public_html/DrogueriaFront/dist/drogueria root@servidorIp:/home/frontend/DrogueriaFront/dist
