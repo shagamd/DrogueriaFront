@@ -19,6 +19,7 @@ import { ChartjsModule } from '@coreui/angular-chartjs';
 
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardComponent } from './dashboard.component';
+import { MenuInicialComponent } from './menu-inicial/menu-inicial.component';
 
 
 @NgModule({
@@ -40,7 +41,7 @@ import { DashboardComponent } from './dashboard.component';
     AvatarModule,
     TableModule,
   ],
-  declarations: [DashboardComponent]
+  declarations: [DashboardComponent, MenuInicialComponent]
 })
 export class DashboardModule {
 }

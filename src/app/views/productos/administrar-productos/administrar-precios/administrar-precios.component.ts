@@ -20,7 +20,7 @@ export class AdministrarPreciosComponent implements OnInit {
 
   arUnidadesMedida: UnidadMedida[] = [];
 
-  constructor(private productoService: ProductoService, private unidadMedidaService: UnidadMedidaService) {}
+  constructor(private productoService: ProductoService, private unidadMedidaService: UnidadMedidaService) { }
 
   ngOnInit(): void {
     this.unidadMedidaService.listarUnidadesMedida().subscribe((res) => (this.arUnidadesMedida = res));
@@ -37,6 +37,10 @@ export class AdministrarPreciosComponent implements OnInit {
   }
 
   agregarPrecio(): void {
+    if(this.precioGestion.unidadMedida == undefined || this.precioGestion.unidadMedida == null){
+      Swal.fire("","La unidad de medida esta vacia", "warning");
+      return;
+    }
     this.productoGestion.arPrecios.push(this.precioGestion);
     this.precioGestion = new Precio();
   }
@@ -46,17 +50,17 @@ export class AdministrarPreciosComponent implements OnInit {
   }
 
   guardarDatos(): void {
-    this.productoService.administrarProducto(this.productoGestion).subscribe((res) => {
-      if (res.estado) {
-        Swal.fire('', 'Precios registrados correctamente', 'success').then((btnRes) => {
-          if (btnRes.isConfirmed) {
-            this.cerrarModal();
-          }
-        });
-      } else {
-        Swal.fire('Error', res.mensaje, 'warning');
-      }
-    });
+      this.productoService.administrarProducto(this.productoGestion).subscribe((res) => {
+        if (res.estado) {
+          Swal.fire('', 'Precios registrados correctamente', 'success').then((btnRes) => {
+            if (btnRes.isConfirmed) {
+              this.cerrarModal();
+            }
+          });
+        } else {
+          Swal.fire('Error', res.mensaje, 'warning');
+        }
+      });
   }
 
   cerrarModal(): void {

@@ -18,3 +18,9 @@ export class Factura {
     soportePago: string = "";
     itemVisible: boolean = false;
 }
+
+export class TotalFacturaModel {
+    fechaFactura: string;
+    total: number = 0;
+    totalMoneda: string;
+}

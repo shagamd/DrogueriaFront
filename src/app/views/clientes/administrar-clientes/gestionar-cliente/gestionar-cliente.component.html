@@ -1,0 +1,54 @@
+<c-modal id="modalAdministrarCliente" [visible]="modalVisible" size="xl" [scrollable]="true" backdrop="static">
+    <c-modal-body>
+        <c-container fluid class="fs-9">
+            <c-card>
+                <c-card-header>
+                    <c-row>
+                        <c-col cCol="12">
+                            <h5 cCardTitle class="fs-6 fw-bold my-0">Administrar Cliente</h5>
+                        </c-col>
+                    </c-row>
+                </c-card-header>
+                <c-card-body>
+                    <c-row class="mb-2">
+                        <c-col cCol="12">
+                            <c-row>
+                                <c-col cCol="6">
+                                    <label cLabel class="fw-bold mb-1">Nombre</label>
+                                    <input cFormControl sizing="xs" type="text" class="padding-input fs-9" [(ngModel)]="clienteGestion.nombre" />
+                                </c-col>
+                               
+                            </c-row>
+                            <c-row>
+                                <c-col cCol="3">
+                                    <label cLabel class="fw-bold mb-1">Documento</label>
+                                    <input cFormControl sizing="xs" type="text" class="padding-input fs-9" [(ngModel)]="clienteGestion.documento" />
+                                </c-col>
+                                <c-col cCol="6">
+                                    <label cLabel class="fw-bold mb-1">Email</label>
+                                    <input cFormControl sizing="xs" type="text" class="padding-input fs-9" [(ngModel)]="clienteGestion.email" />
+                                </c-col>
+                                <c-col cCol="3">
+                                    <label cLabel class="fw-bold mb-1">Telefono</label>
+                                    <input cFormControl sizing="xs" type="text" class="padding-input fs-9" [(ngModel)]="clienteGestion.telefono" />
+                                </c-col>
+                                <c-col cCol="12">
+                                    <label cLabel class="fw-bold mb-1">Observaciones</label>
+                                    <input cFormControl sizing="xs" type="text" class="padding-input fs-9" [(ngModel)]="clienteGestion.observaciones" />
+                                </c-col>
+                            </c-row>
+                        </c-col>
+                    </c-row>
+                </c-card-body>
+                <c-card-footer>
+                    <c-row>
+                        <c-col class="text-end">
+                            <button cButton (click)="guardarDatos()" color="primary" class="btn-general fs-9 w-auto px-4 me-2 btn-padding">Guardar</button>
+                            <button cButton (click)="cerrarModal()" color="danger" class="btn-general fs-9 w-auto px-4">Cerrar</button>
+                        </c-col>
+                    </c-row>
+                </c-card-footer>
+            </c-card>
+        </c-container>
+    </c-modal-body>
+</c-modal>
