@@ -1,0 +1,55 @@
+<c-modal #modalXl id="modalCargaClientes" size="xl" [visible]="modalVisible" backdrop="static" [keyboard]="false">
+    <c-modal-header>
+        <h5 cModalTitle>Consulta Clientes</h5>
+    </c-modal-header>
+    <c-modal-body>
+        <c-card class="mb-2"><c-card-body class="py-2 fs-9">
+                <c-row>
+                    <c-col cCol="4">
+                        <label cLabel class="fw-bold mb-1">Nombre</label>
+                        <input cFormControl sizing="xs" type="text" class="padding-input fs-9" [(ngModel)]="palabraBusqueda" (keypress)="pressEnter($event)" />
+                    </c-col>
+                    <c-col cCol="3">
+                        <label cLabel class="fw-bold mb-1">&nbsp;</label><br />
+                        <button cButton color="primary" class="button_padding px-3 fs-9" (click)="onPageChange(1)">Buscar</button>
+                    </c-col>
+                </c-row>
+            </c-card-body></c-card>
+        <c-card><c-card-body class="py-2">
+                <c-row>
+                    <c-col cCol="12">
+                        <table cTable bordered hover>
+                            <thead cTableColor="dark" class="fs-8">
+                                <tr>
+                                    <th class="py-1 px-2">Nombre</th>
+                                    <th class="py-1 px-2">Email</th>
+                                    <th class="py-1 px-2">Telefono</th>
+                                    <th class="py-1 px-2">Observaciones</th>
+                                </tr>
+                            </thead>
+                            <tbody class="fs-9">
+                                <tr *ngFor="let cliente of arClientes" (dblclick)="seleccionarCliente(cliente)">
+                                    <td class="py-1 px-2 align-middle">
+                                        <b>Nombre: </b>{{ cliente.nombre }}<br /><b>Documento: </b>{{ cliente.documento }}
+                                    </td>
+                                    <td class="py-1 px-2 align-middle">
+                                        {{ cliente.email }}
+                                    </td>
+                                    <td class="py-1 px-2 align-middle">
+                                        {{ cliente.telefono }}
+                                    </td>
+                                    <td class="py-1 px-2 align-middle">
+                                        {{ cliente.observaciones }}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </c-col>
+                    <c-col cCol="12">
+                        <app-pagination-table [currentPage]="currentPage" [totalPages]="totalPages" (pageChange)="onPageChange($event)"></app-pagination-table>
+                    </c-col>
+                </c-row>
+            </c-card-body>
+        </c-card>
+    </c-modal-body>
+</c-modal>

@@ -59,7 +59,7 @@
                                 <td class="py-1 px-2 align-middle wt-15">
                                     <select cSelect sizing="xs" class="fs-9" [ngModel]="itemFactura.unidadMedida" (ngModelChange)="modificarUnidadMedida(itemFactura, $event)" [compareWith]="compareUnidadMedidaVenta">
                                         <ng-container *ngFor="let unidadMedida of getUnidadesMedida(itemFactura.producto)">
-                                            <option [ngValue]="unidadMedida">{{ unidadMedida.nombre + '('+unidadMedida.abreviatura+')' }}</option>
+                                            <option [ngValue]="unidadMedida" translate="no">{{ unidadMedida.nombre + '('+unidadMedida.abreviatura+')' }}</option>
                                         </ng-container>
                                     </select>
                                 </td>
@@ -86,7 +86,7 @@
                 </c-col>
                 <c-col cCol="2">
                     <label cLabel cCol="6" class="fw-bold px-0">Tipo Pago</label>
-                    <select cCol="6" cSelect sizing="xs" class="fs-9" [(ngModel)]="tipoPagoSeleccionado" [compareWith]="compareTipoPago" (change)="factura.medioPago = undefined">
+                    <select cCol="6" cSelect sizing="xs" class="fs-9" [(ngModel)]="tipoPagoSeleccionado" [compareWith]="compareTipoPago" (change)="onChangeTipoPago()">
                         <ng-container *ngFor="let tipoPago of arTiposPago">
                             <option [ngValue]="tipoPago">{{ tipoPago.nombre }}</option>
                         </ng-container>
@@ -106,19 +106,21 @@
                 </c-col>
                 <c-col cCol="2">
                     <label cLabel cCol="5" class="fw-bold">Recibido</label>
-                    <input cFormControl sizing="xs" type="number" class="padding-input fs-9" [OnlyNumber]="true" cCol="7" [(ngModel)]="totalRecibido" />
+                    <input cFormControl sizing="xs" type="number" class="padding-input fs-9" [OnlyNumber]="true" cCol="7" [(ngModel)]="factura.recibido" />
                 </c-col>
                 <c-col cCol="2">
                     <label cLabel cCol="5" class="fw-bold">Cambio</label>
-                    <input cFormControl sizing="xs" type="text" cCol="7" class="padding-input fs-9" disabled [value]="totalRecibido - factura.total" />
+                    <input cFormControl sizing="xs" type="text" cCol="7" class="padding-input fs-9" disabled [value]="factura.recibido - factura.total" />
                 </c-col>
                 <c-col cCol="12">
                     <!-- <app-pagination-table [currentPage]="currentPage" [totalPages]="totalPages" (pageChange)="onPageChange($event)"></app-pagination-table> -->
                 </c-col>
             </c-row>
         </c-card-body>
-        <c-card-footer class="text-end">
+        <c-card-footer class="d-flex justify-content-between">
+            <button cButton color="secondary" class="btn-general fs-9 w-auto px-4" (click)="buscarCliente()">Seleccionar Cliente</button>
             <button cButton color="primary" class="btn-general fs-9 w-auto px-4" (click)="registrarVenta()">Registrar Venta</button>
         </c-card-footer>
     </c-card>
+    <app-cargar-cliente #recibirClienteChild (emitirCliente)="recibirCliente($event)"></app-cargar-cliente>
 </c-container>

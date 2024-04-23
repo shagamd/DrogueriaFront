@@ -1,0 +1,81 @@
+<c-container fluid>
+    <c-card class="mb-2"><c-card-body class="py-2 fs-9">
+            <c-row>
+                <c-col cCol="4">
+                    <label cLabel class="fw-bold mb-1">Cliente</label>
+                    <select cSelect sizing="xs" class="fs-9" [(ngModel)]="clienteBusqueda">
+                        <option [ngValue]="undefined">Seleccione</option>
+                        <ng-container *ngFor="let cliente of arClientes">
+                            <option [ngValue]="cliente">{{ cliente.nombre }}</option>
+                        </ng-container>
+                    </select>
+                </c-col>
+                <c-col cCol="2">
+                    <label cLabel class="fw-bold mb-1">Estado</label>
+                    <select cSelect sizing="xs" class="fs-9" [(ngModel)]="estadoBusqueda">
+                        <option [ngValue]="undefined">Todas</option>
+                        <option [ngValue]="true">Activas</option>
+                        <option [ngValue]="false">Inactivas</option>
+                    </select>
+                </c-col>
+                <c-col cCol="2">
+                    <label cLabel class="fw-bold mb-1">&nbsp;</label><br />
+                    <button cButton color="primary" class="button_padding px-3 fs-9" (click)="onPageChange(1)">Buscar</button>
+                </c-col>
+            </c-row>
+        </c-card-body></c-card>
+    <c-card><c-card-body class="py-2">
+            <c-row>
+                <c-col cCol="12">
+                    <table cTable bordered hover>
+                        <thead cTableColor="dark" class="fs-8">
+                            <tr>
+                                <th class="py-1 wt-10">
+                                    <svg cIcon name="cilListRich"></svg>
+                                </th>
+                                <th class="py-1 px-2 align-middle">Cliente</th>
+                                <th class="py-1 px-2 align-middle">Factura</th>
+                                <th class="py-1 px-2 align-middle">Ultimo Abono</th>
+                                <th class="py-1 px-2 align-middle">Saldo Actual</th>
+                                <th class="py-1 px-2 align-middle">Total Cuenta</th>
+                                <th class="py-1 px-2 align-middle">Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody class="fs-9">
+                            <tr *ngFor="let cuentaCobro of arCuentasCobro">
+                                <td class="py-1 px-2 align-middle">
+                                    <c-row class="px-2">
+                                        <button (click)="registarAbono(cuentaCobro)" cButton color="primary" class="px-3 fs-9"><svg cIcon name="cilCash" size="xs"></svg> Abonos</button>
+                                    </c-row>
+                                </td>
+                                <td class="py-1 px-2 align-middle">
+                                    <b>Cliente: </b>{{ cuentaCobro.cliente.nombre }}
+                                </td>
+                                <td class="py-1 px-2 align-middle">
+                                    <b># Factura: </b>{{ cuentaCobro.factura.id }}&nbsp;
+                                    <b>Fecha Factura: </b>{{ cuentaCobro.factura.fechaFactura | date | titlecase }}
+                                </td>
+                                <td class="py-1 px-2 align-middle">
+                                    {{ cuentaCobro.fechaUltimoPago ? (cuentaCobro.fechaUltimoPago | date | titlecase) : "Sin Abonos" }}
+                                </td>
+                                <td class="py-1 px-2 align-middle text-left">
+                                    {{ cuentaCobro.saldoActual }}
+                                </td>
+                                <td class="py-1 px-2 align-middle text-left">
+                                    {{ cuentaCobro.valorTotal }}
+                                </td>
+                                <td class="py-1 px-2 align-middle">
+                                    <c-badge [color]="cuentaCobro.estado ? 'success':'danger'">{{cuentaCobro.estado ? 'Activo':'Inactivo'}}</c-badge>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </c-col>
+                <c-col cCol="12">
+                    <app-pagination-table [currentPage]="currentPage" [totalPages]="totalPages" (pageChange)="onPageChange($event)"></app-pagination-table>
+                </c-col>
+            </c-row>
+        </c-card-body>
+    </c-card>
+    <app-abonos-cuenta-cobro #abonoCuentaCobro (emitUpdateTable)="listarCuentasCobro()"></app-abonos-cuenta-cobro>
+</c-container>

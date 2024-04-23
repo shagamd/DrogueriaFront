@@ -1,4 +1,4 @@
-import { Cliente } from './../classes/cliente';
+import { Cliente, ClienteResumen } from './../classes/cliente';
 import { HttpClient } from '@angular/common/http';
 import { AppSettings } from './../app-settings';
 import { Injectable } from '@angular/core';
@@ -36,6 +36,14 @@ export class ClientesService {
 
   administrarCliente(cliente:Cliente): Observable<GenericResponse> {
     return this.http.post<GenericResponse>(this.urlEndPoint + '/administrarCliente', cliente).pipe(
+      catchError((e) => {
+        return throwError(() => e);
+      })
+    );
+  }
+
+  obtenerClientesSelect():Observable<ClienteResumen[]> {
+    return this.http.get<ClienteResumen[]>(this.urlEndPoint + '/clientsForSelect').pipe(
       catchError((e) => {
         return throwError(() => e);
       })

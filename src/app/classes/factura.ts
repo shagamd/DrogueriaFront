@@ -17,6 +17,7 @@ export class Factura {
     medioPago: MedioPago;
     soportePago: string = "";
     itemVisible: boolean = false;
+    recibido: number = 0;
 }
 
 export class TotalFacturaModel {

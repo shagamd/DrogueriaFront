@@ -43,6 +43,11 @@ export const navItems: INavData[] = [
         name: 'Historial Ventas',
         url: '/ventas/historial_ventas',
         iconComponent: { name: 'cil-list' },
+      },
+      {
+        name: 'Cuentas Cobro',
+        url: '/ventas/cuentas_cobro',
+        iconComponent: { name: 'cil-cash' },
       }
     ]
   },

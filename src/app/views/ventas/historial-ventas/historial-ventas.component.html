@@ -22,6 +22,7 @@
                                 <th class="py-1 px-2">Cliente Factura</th>
                                 <th class="py-1 px-2">Estado Factura</th>
                                 <th class="py-1 px-2">Medio Pago</th>
+                                <th class="py-1 px-2">Recibido</th>
                                 <th class="py-1 px-2">Total Factura</th>
                             </tr>
                         </thead>
@@ -42,11 +43,13 @@
                                     </td>
                                     <td class="py-1 px-2 align-middle text-left">{{factura.medioPago.nombre}}
                                     </td>
+                                    <td class="py-1 px-2 align-middle text-left">$ {{factura.recibido ?? 0 | number }}
+                                    </td>
                                     <td class="py-1 px-2 align-middle text-end">$ {{factura.total | number}}
                                     </td>
                                 </tr>
                                 <tr [hidden]="!factura.itemVisible">
-                                    <td colspan="6">
+                                    <td colspan="7">
                                         <div cCollapse [visible]="factura.itemVisible">
                                             <table cTable bordered hover class="my-0">
                                                 <thead cTableColor="dark" class="fs-8">
@@ -85,7 +88,7 @@
                         </tbody>
                         <tfoot class="fs-7">
                             <tr>
-                                <td colspan="5" class="text-end">
+                                <td colspan="6" class="text-end">
                                     Total para {{ fechaTotalFactura | date | titlecase }}
                                 </td>
                                 <td class="text-end">

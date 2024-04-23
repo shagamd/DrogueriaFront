@@ -2,7 +2,7 @@ import { FacturaService } from './../../../services/factura.service';
 import { ClientesService } from './../../../services/clientes.service';
 import { TipoPagoService } from './../../../services/tipo-pago.service';
 import { Factura } from './../../../classes/factura';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Observable, Subject, catchError, concat, debounceTime, distinctUntilChanged, filter, max, of, switchMap, tap } from 'rxjs';
 import { FacturaDetalle } from 'src/app/classes/factura_detalle';
 import { ProductoResumen } from 'src/app/classes/producto';
@@ -12,6 +12,8 @@ import { TipoPago } from 'src/app/classes/tipoPago';
 import { AuthService } from 'src/app/services/auth.service';
 import { MedioPago } from 'src/app/classes/medioPago';
 import Swal from 'sweetalert2';
+import { Cliente } from 'src/app/classes/cliente';
+import { CargarClienteComponent } from 'src/app/components/cargar-cliente/cargar-cliente.component';
 
 @Component({
   selector: 'app-registrar-venta',
@@ -20,10 +22,11 @@ import Swal from 'sweetalert2';
 })
 export class RegistrarVentaComponent implements OnInit {
 
+  @ViewChild('recibirClienteChild') cargarClienteChild: CargarClienteComponent;
+
   // productoRegistro: ProductoResumen = undefined;
   factura: Factura = new Factura();
   arTiposPago: TipoPago[] = [];
-  totalRecibido: number = 0;
 
   tipoPagoSeleccionado: TipoPago = undefined;
 
@@ -36,9 +39,10 @@ export class RegistrarVentaComponent implements OnInit {
     });
   }
 
-  asignarDatosBasicosFactura():void {
+  asignarDatosBasicosFactura(): void {
     this.tipoPagoSeleccionado = this.arTiposPago.find(tipoPago => tipoPago.id == TipoPago.CONTADO);
     this.factura.medioPago = this.tipoPagoSeleccionado.arMedioPago.find(medioPago => medioPago.id == MedioPago.EFECTIVO);
+    this.factura.recibido = 0;
     this.clienteService.obtenerClienteGenerico().subscribe(el => this.factura.cliente = el);
   }
 
@@ -102,10 +106,10 @@ export class RegistrarVentaComponent implements OnInit {
     this.factura.detalleFactura.forEach((el) => {
       let maxCantidadProducto = this.maxCantidadProducto(el);
       console.log("maxima cantidad", maxCantidadProducto);
-      if(el.cantidad > maxCantidadProducto){
-        console.log("Total cantidad ",el.cantidad);
+      if (el.cantidad > maxCantidadProducto) {
+        console.log("Total cantidad ", el.cantidad);
         el.cantidad = maxCantidadProducto;
-        console.log("Total cantidad Final",el.cantidad);
+        console.log("Total cantidad Final", el.cantidad);
       }
 
       if (el.esOferta) {
@@ -134,16 +138,33 @@ export class RegistrarVentaComponent implements OnInit {
   registrarVenta(): void {
     if (this.validarRegistroFactura()) {
       this.facturaService.registrarFactura(this.factura).subscribe(el => {
-        Swal.fire("","Factura <b>"+el.id+"</b> registrada correctamente.","success");
+        Swal.fire("", "Factura <b>" + el.id + "</b> registrada correctamente.", "success");
         this.limpiarDatos();
       })
     }
   }
 
-  limpiarDatos():void {
+  buscarCliente(): void {
+    this.cargarClienteChild.consultarCliente();
+  }
+
+  recibirCliente(cliente: Cliente) {
+    this.factura.cliente = cliente;
+  }
+
+  onChangeTipoPago(): void {
+    if (this.tipoPagoSeleccionado.id == TipoPago.CREDITO && this.factura.cliente.documento == Cliente.DOCUMENTO_GENERICO) {
+      Swal.fire("", "El tipo pago Credito, no aplica para el Cliente Generico", "warning").then(() => {
+        this.tipoPagoSeleccionado = this.arTiposPago.find(el => el.id == TipoPago.CONTADO);
+      });
+    } else {
+      this.factura.medioPago = this.tipoPagoSeleccionado.arMedioPago[0];
+    }
+  }
+
+  limpiarDatos(): void {
     this.factura = new Factura();
     this.asignarDatosBasicosFactura();
-    this.totalRecibido = 0;
     this.recalcularTotales();
   }
 
@@ -152,7 +173,7 @@ export class RegistrarVentaComponent implements OnInit {
     if (this.factura.detalleFactura.length == 0) {
       arErrores.push("No se han vinculado productos");
     }
-    if (this.totalRecibido < this.factura.total) {
+    if (this.factura.recibido < this.factura.total) {
       arErrores.push("El valor recibido, no puede ser menor al total de la factura");
     }
     this.factura.detalleFactura.forEach(el => {

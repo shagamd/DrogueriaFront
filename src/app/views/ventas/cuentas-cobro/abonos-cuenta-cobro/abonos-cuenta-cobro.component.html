@@ -1,0 +1,62 @@
+<c-modal #modalXl id="modalAbonosCuentaCobro" size="xl" [visible]="modalVisible" backdrop="static" [keyboard]="false">
+    <c-modal-header>
+        <h5 cModalTitle>Cuenta Cobro Factura {{cuentaCobroActual?.factura?.id}}</h5>
+    </c-modal-header>
+    <c-modal-body>
+        <c-container fluid>
+            <c-row>
+                <c-col cCol="6">
+                    <h6><b>Cliente: </b>{{cuentaCobroActual?.cliente?.nombre | titlecase}}</h6>
+                </c-col>
+                <c-col cCol="3">
+                    <h6><b>Total Cuenta: </b>{{cuentaCobroActual?.valorTotal | number }}</h6>
+                </c-col>
+                <c-col cCol="3">
+                    <h6><b>Saldo Actual: </b>{{cuentaCobroActual?.saldoActual | number }}</h6>
+                </c-col>
+                <c-col cCol="12">
+                    <table cTable bordered hover>
+                        <thead cTableColor="dark" class="fs-8">
+                            <tr>
+                                <th class="py-1 wt-10">
+                                    <button (click)="anadirAbono()" cButton color="primary" class="px-3 fs-9 fw-bold" cTooltip="Añadir Abono"><svg cIcon name="cilNoteAdd" size="xs"></svg></button>
+                                </th>
+                                <th class="py-1 px-2 align-middle">Fecha Abono</th>
+                                <th class="py-1 px-2 align-middle wt-15">Valor Abono</th>
+                                <th class="py-1 px-2 align-middle">Observaciones</th>
+                            </tr>
+                        </thead>
+                        <tbody class="fs-9">
+                            <tr *ngFor="let abono of cuentaCobroActual.abonosCuentaCobro">
+                                <td class="py-1 px-2 align-middle">
+                                    <c-row class="px-2">
+                                        <button cButton color="danger" class="px-3 fs-9" (click)="eliminarAbono(abono)"><svg cIcon name="cilTrash" size="xs"></svg> Eliminar</button>
+                                    </c-row>
+                                </td>
+                                <td class="py-1 px-2 align-middle">
+                                    <b>Fecha: </b>{{ abono.fechaAbono | date | titlecase }}
+                                </td>
+                                <td class="py-1 px-2 align-middle">
+                                    <input [disabled]="abono.id != undefined" cFormControl sizing="xs" type="number" class="padding-input fs-9" [(ngModel)]="abono.valorAbono" />
+                                </td>
+                                <td class="py-1 px-2 align-middle">
+                                    <input [disabled]="abono.id != undefined" cFormControl sizing="xs" type="text" class="padding-input fs-9" [(ngModel)]="abono.observaciones" />
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th colspan="2">Total Abonado: </th>
+                                <td colspan="2" class="text-start">$ {{ getTotalAbonos() | number }}</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </c-col>
+            </c-row>
+        </c-container>
+    </c-modal-body>
+    <c-modal-footer>
+        <button (click)="actualizarCuentasCobro()" cButton color="success" class="px-3 fs-9">Guardar</button>
+        <button (click)="cerrarModal()" cButton color="danger" class="px-3 fs-9">Salir</button>
+    </c-modal-footer>
+</c-modal>
